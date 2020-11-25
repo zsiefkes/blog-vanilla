@@ -7,9 +7,26 @@
     <title>Blog</title>
 </head>
 <body>
+    <section>
+        <h2>Compose</h2>
+        <p class="char-remaining">
+            Characters: <span id="char-remaining-count"></span>
+        </p>
+        <textarea name="post" class="post-textarea" cols="60" rows="10"></textarea>
+        <button type="submit" class="submit-button">Submit</button>
+    </section>
 
-    <textarea name="post" class="post-textarea" cols="30" rows="10"></textarea>
-    <button type="submit" class="submit-button">Submit</button>
+    <section id="posts-list">
+        <h2>Posts</h2>
+        <!-- <div class="post-container">
+            <div>
+                Posted at: ....
+            </div>
+            <p>
+                The post stuff...
+            </p>
+        </div> -->
+    </section>    
     <script src="script.js"></script>    
 </body>
 </html>

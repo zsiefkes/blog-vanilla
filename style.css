@@ -4,7 +4,7 @@
 $linkPurple: rgb(98, 16, 250); */
 
 html {
-    font-size: 2em;
+    font-size: 1.1em;
     box-sizing: border-box;
 }
 
@@ -13,7 +13,8 @@ body {
     padding: 0px;
     min-height: 100vh;
     background-color: #1b1b1b;
-    color: #2E5984;
+    /* color: #2E5984; */
+    color: rgb(216, 29, 216);
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 }
 
@@ -28,8 +29,21 @@ a:hover {
 }
 
 textarea {
+    color: rgb(216, 29, 216);
     background-color: #2f2f2f;
-    /* border: 1px #2E5984; */
+    border: none;
+    overflow: auto;
+    outline: none;
+    
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    
+    resize: none; /*remove the resize handle on the bottom right*/
+}
+
+textarea.post-textarea {
+    font-size: 1.2em;
 }
 
 .submit-button {
@@ -39,10 +53,20 @@ textarea {
     padding: 5px 20px;
     border: 1px #528AAE solid;
     border-radius: 2px;
+    font-weight: 500;
 }
 
 .submit-button:hover {
     /* background-color: #528AAE; */
     border: 1px #91BAD6 solid;
     color: #91BAD6;
+}
+
+.char-remaining {
+    font-size: .8em;
+    color: rgb(176, 16, 250);
+}
+
+.post-container {
+    font-size: .9em;
 }
