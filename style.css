@@ -18,6 +18,11 @@ body {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 }
 
+h2 {
+    /* color: rgb(98, 16, 250); */
+    font-weight: 600;
+}
+
 a {
     position: relative;
     color: #ffffff;
@@ -69,4 +74,9 @@ textarea.post-textarea {
 
 .post-container {
     font-size: .9em;
+}
+
+.timestamp {
+    display: inline-block;
+    color: rgb(176, 16, 250);
 }

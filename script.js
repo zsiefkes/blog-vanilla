@@ -20,15 +20,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
         posts.push(newPost);
         updatePostList();
-        postTextarea.value = "";
+        // postTextarea.value = "";
     });
     
     function updatePostList() {
         // first, clear existing post list element
         postsList.innerHTML = "";
 
-        // loop over list of posts and create the um. elements
-        for (let post of posts) {
+        // loop over list of posts in reverse order and create and append the post elements
+        // for (let post of posts) {
+        for (let i = posts.length - 1; i > -1; i--) {
+            let post = posts[i];
+
             let postElem = document.createElement("div");
             let timestampText = document.createTextNode("Posted at: " + post.timeStamp);
             let postPara = document.createElement("p");
@@ -48,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             postTextarea.value = postTextarea.value.substring(0, maxChar - 1);
         }
         charRemaining.innerText = numCharacters + " / " + maxChar;
-        console.log('characters: ' + numCharacters);
+        // console.log('characters: ' + numCharacters);
         
     }
 
