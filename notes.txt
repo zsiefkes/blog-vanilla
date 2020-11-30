@@ -1,0 +1,11 @@
+current task:
+
+overall goal:
+
+other tasks to achieve this:
+
+achieved:
+- see if we can do password authentication!
+- be able to log in users!
+- add logout button
+- be able to log users in and out! create and destroy sessions.

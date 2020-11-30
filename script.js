@@ -5,14 +5,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const maxChar = 500;
     let charRemaining = document.querySelector("#char-remaining-count");
     let submitButton = document.querySelector(".submit-button");
-    let postsList = document.querySelector("#posts-list");
+    // let postsList = document.querySelector("#posts-list");
     
     // display number of characters remaining
-    postTextarea.addEventListener("keydown", function(event) {
+    postTextarea.addEventListener("keyup", function(event) {
         updateCharRemaining();
     });
 
     submitButton.addEventListener("click", function(event) {
+        // reduce to 500 characters
+        updateCharRemaining();
         // grab the text, add the string to posts
         let newPost = {
             text: postTextarea.value,
@@ -23,34 +25,38 @@ document.addEventListener("DOMContentLoaded", function(event) {
         // postTextarea.value = "";
     });
     
-    function updatePostList() {
-        // first, clear existing post list element
-        postsList.innerHTML = "";
+    // redundant now using php to load posts
+    // function updatePostList() {
+    //     // first, clear existing post list element
+    //     postsList.innerHTML = "";
 
-        // loop over list of posts in reverse order and create and append the post elements
-        // for (let post of posts) {
-        for (let i = posts.length - 1; i > -1; i--) {
-            let post = posts[i];
+    //     // loop over list of posts in reverse order and create and append the post elements
+    //     // for (let post of posts) {
+    //     for (let i = posts.length - 1; i > -1; i--) {
+    //         let post = posts[i];
 
-            let postElem = document.createElement("div");
-            let timestampText = document.createTextNode("Posted at: " + post.timeStamp);
-            let postPara = document.createElement("p");
-            let postText = document.createTextNode(post.text);
-            postElem.appendChild(timestampText);
-            postElem.appendChild(postPara);
-            postPara.appendChild(postText);
-            postsList.appendChild(postElem);
-        }
+    //         let postElem = document.createElement("div");
+    //         let timestampText = document.createTextNode("Posted at: " + post.timeStamp);
+    //         let postPara = document.createElement("p");
+    //         let postText = document.createTextNode(post.text);
+    //         postElem.appendChild(timestampText);
+    //         postElem.appendChild(postPara);
+    //         postPara.appendChild(postText);
+    //         postsList.appendChild(postElem);
+    //     }
 
-    }
+    // }
     
     function updateCharRemaining() {
         // count number
         let numCharacters = postTextarea.value.length;
-        if (numCharacters > maxChar - 1) {
+        if (numCharacters > maxChar) {
             postTextarea.value = postTextarea.value.substring(0, maxChar - 1);
+            numCharacters = maxChar;
+            charRemaining.innerText = maxChar + " / " + maxChar;
+        } else {
+            charRemaining.innerText = numCharacters + " / " + maxChar;
         }
-        charRemaining.innerText = numCharacters + " / " + maxChar;
         // console.log('characters: ' + numCharacters);
         
     }
