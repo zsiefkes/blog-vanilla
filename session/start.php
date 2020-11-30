@@ -41,12 +41,28 @@
                 $username = $user_row['username'];
                 $fname = $user_row['fname'];
                 $user_enabled = $user_row['enabled'];
+
+                // if user is disabled, want to offer them option to reenable their account.
+                // or maybe just do it automatically cause they trying to log in. maybe add a boolean to the session array about 'just_reenabled' or some shit and display welcome back, fname! on the dashboard if so
+                if ($user_enabled == 0) {
+                    // make the user enabled
+                    $enable_query = $connection->prepare("UPDATE users SET enabled = 1 WHERE id = ?;");
+                    $enable_query->bind_param("i", $user_id);
+                    $enable_query->execute();
+
+                    // add 'just_reenabled = true' to the session
+                    $_SESSION['just_reenabled'] = true;
+                } else {
+                    $_SESSION['just_reenabled'] = false;
+                }
+                
                 // echo $user_id;
                 // echo $user_enabled;
                 // echo $user_row;
                 
                 // start session and save some stuff to it?
                 session_start();
+                $_SESSION['just_reenabled'] = false;
                 $_SESSION['user_id'] = $user_id;
                 $_SESSION['username'] = $username;
                 $_SESSION['fname'] = $fname;
@@ -61,7 +77,7 @@
                 echo $session_id;
                 echo $user_id;
                 echo $login_time;
-                $session_query->bind_param("sss", $session_id, $user_id, $login_time);
+                $session_query->bind_param("sis", $session_id, $user_id, $login_time);
                 $session_query->execute();  
                 $session_result = $session_query->get_result();
                 // $session_row = $session_result->fetch_assoc();
@@ -105,6 +121,9 @@
         }
     } else {
         // check for existing session and grab info
+        if (!isset($_SESSION)) { 
+            session_start();
+        }
 
     }
     // echo $_REQUEST['username'];

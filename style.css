@@ -67,6 +67,12 @@ textarea.post-textarea {
     color: #91BAD6;
 }
 
+.submit-button.button-disabled:hover {
+    color: #528AAE;
+    border: 1px #528AAE solid;
+
+}
+
 .char-remaining {
     font-size: .8em;
     color: rgb(176, 16, 250);
@@ -79,4 +85,8 @@ textarea.post-textarea {
 .timestamp {
     display: inline-block;
     color: rgb(176, 16, 250);
+}
+
+.signup-button {
+
 }

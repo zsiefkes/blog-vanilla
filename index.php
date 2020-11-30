@@ -1,6 +1,7 @@
 <?php
     // check for existing session and redirect to dashboard page if user is logged in
     if (!isset($_SESSION)) {
+        // header("Location: /blog1/dashboard.php");
         session_start();
         if (array_key_exists('username', $_SESSION)) {
             header("Location: /blog1/dashboard.php");

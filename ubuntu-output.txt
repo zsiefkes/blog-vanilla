@@ -1,0 +1,609 @@
+MariaDB [mydb]> create table posts (body varchar(500) not null, timestamp timestamp not null);
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [mydb]> select * from posts;
+Empty set (0.00 sec)
+
+MariaDB [mydb]> select * from posts;
++---------+---------------------+
+| body    | timestamp           |
++---------+---------------------+
+| testing | 2020-11-28 15:47:26 |
+| no way  | 2020-11-28 15:47:29 |
++---------+---------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from posts order by timestamp;
++---------+---------------------+
+| body    | timestamp           |
++---------+---------------------+
+| testing | 2020-11-28 15:47:26 |
+| no way  | 2020-11-28 15:47:29 |
++---------+---------------------+
+2 rows in set (0.01 sec)
+
+MariaDB [mydb]> select * from posts order by timestamp desc;
++---------+---------------------+
+| body    | timestamp           |
++---------+---------------------+
+| no way  | 2020-11-28 15:47:29 |
+| testing | 2020-11-28 15:47:26 |
++---------+---------------------+
+2 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from posts order by timestamp desc;
++---------+---------------------+
+| body    | timestamp           |
++---------+---------------------+
+|         | 2020-11-28 15:52:19 |
+| woo!    | 2020-11-28 15:48:53 |
+| no way  | 2020-11-28 15:47:29 |
+| testing | 2020-11-28 15:47:26 |
++---------+---------------------+
+4 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from posts order by timestamp desc;
++---------+---------------------+
+| body    | timestamp           |
++---------+---------------------+
+|
+      | 2020-11-28 15:54:51 |
+|         | 2020-11-28 15:54:19 |
+|         | 2020-11-28 15:54:17 |
+|         | 2020-11-28 15:53:55 |
+|         | 2020-11-28 15:52:19 |
+| woo!    | 2020-11-28 15:48:53 |
+| no way  | 2020-11-28 15:47:29 |
+| testing | 2020-11-28 15:47:26 |
++---------+---------------------+
+8 rows in set (0.00 sec)
+
+MariaDB [mydb]> delete from posts;
+Query OK, 8 rows affected (0.00 sec)
+
+MariaDB [mydb]> select * from posts order by timestamp desc;
+Empty set (0.00 sec)
+
+MariaDB [mydb]> delete from posts;
+Query OK, 7 rows affected (0.01 sec)
+
+MariaDB [mydb]> create table users (
+    -> id int(10) unsigned not null,
+    -> username varchar(30) not null,
+    -> password varchar(255) not null,
+    -> reg_time timestamp not null default current_timestamp,
+    -> enabled tinyint(1) unsigned not null default '1');
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [mydb]> alter table users
+    -> add primary key (id),
+    -> add unique key username (username);
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydb]> alter table users
+    -> modify id int(10) unsigned not null auto_increment;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydb]> create table user_sessions (
+    -> session_id varchar(255) not null,
+    -> user_id int(10) unsigned not null,
+    -> login_time timestamp not null default current_timestamp);
+Query OK, 0 rows affected (0.03 sec)
+
+MariaDB [mydb]> alter table user_sessions
+    -> add primary key (session_id);
+ERROR 1071 (42000): Specified key was too long; max key length is 767 bytes
+MariaDB [mydb]> alter table user_sessions
+    -> alter session_id varchar(200) not null;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'varchar(200) not null' at line 2
+MariaDB [mydb]> alter table user_sessions  alter session_id (varchar(200) not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(varchar(200) not null)' at line 1
+MariaDB [mydb]> alter table user_sessions  modify session_id (varchar(200) not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(varchar(200) not null)' at line 1
+MariaDB [mydb]> alter table user_sessions modify session_id (varchar(200) not null);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '(varchar(200) not null)' at line 1
+MariaDB [mydb]> alter table user_sessions  modify session_id varchar(200) not null;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydb]> alter table user_sessions
+    -> add primary key (session_id);
+ERROR 1071 (42000): Specified key was too long; max key length is 767 bytes
+MariaDB [mydb]>
+Display all 791 possibilities? (y or n)
+MariaDB [mydb]>
+MariaDB [mydb]> alter table user_sessions  modify session_id varchar(191) not null;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydb]> alter table user_sessions add primary key (session_id);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydb]> insert into users (username, password) values (testuser, testpass);
+ERROR 1054 (42S22): Unknown column 'testuser' in 'field list'
+MariaDB [mydb]> insert into users (username, password) values ('testuser', 'testpass');
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [mydb]> select * from users;
++----+----------+----------+---------------------+---------+
+| id | username | password | reg_time            | enabled |
++----+----------+----------+---------------------+---------+
+|  1 | testuser | testpass | 2020-11-29 16:33:51 |       1 |
++----+----------+----------+---------------------+---------+
+1 row in set (0.00 sec)
+
+MariaDB [mydb]> select * from users;
++----+-----------+--------------------------------------------------------------+---------------------+---------+
+| id | username  | password                                                     | reg_time            | enabled |
++----+-----------+--------------------------------------------------------------+---------------------+---------+
+|  1 | testuser  | testpass                                                     | 2020-11-29 16:33:51 |       1 |
+|  2 | testuser2 | $2y$10$TAM8hYqfAFQtXrFdNbsUf.lFXljelPecHfUb1ZivcgTWRd8/dNkNO | 2020-11-29 16:50:05 |       1 |
++----+-----------+--------------------------------------------------------------+---------------------+---------+
+2 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from users;
++----+-------------+--------------------------------------------------------------+---------------------+---------+
+| id | username    | password                                                     | reg_time            | enabled |
++----+-------------+--------------------------------------------------------------+---------------------+---------+
+|  1 | testuser    | testpass                                                     | 2020-11-29 16:33:51 |       1 |
+|  2 | testuser2   | $2y$10$TAM8hYqfAFQtXrFdNbsUf.lFXljelPecHfUb1ZivcgTWRd8/dNkNO | 2020-11-29 16:50:05 |       1 |
+|  3 | anotheruser | $2y$10$WAWmZvbK/eP4DL7bK6R0feg.9Zn2lRnftjXcERoymgPmQv6w3feHe | 2020-11-30 09:51:21 |       1 |
++----+-------------+--------------------------------------------------------------+---------------------+---------+
+3 rows in set (0.01 sec)
+
+MariaDB [mydb]> show tables;
++------------------+
+| Tables_in_mydb   |
++------------------+
+| coaches          |
+| games            |
+| match_teams      |
+| matches          |
+| player_positions |
+| players          |
+| posts            |
+| teams            |
+| user_sessions    |
+| users            |
++------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [mydb]> select from users where username='testuser2';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'from users where username='testuser2'' at line 1
+MariaDB [mydb]> select from users where username=testuser2;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'from users where username=testuser2' at line 1
+MariaDB [mydb]> select password from users where username=testuser2;
+ERROR 1054 (42S22): Unknown column 'testuser2' in 'where clause'
+MariaDB [mydb]> select password from users where username='testuser2';
++--------------------------------------------------------------+
+| password                                                     |
++--------------------------------------------------------------+
+| $2y$10$TAM8hYqfAFQtXrFdNbsUf.lFXljelPecHfUb1ZivcgTWRd8/dNkNO |
++--------------------------------------------------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mydb]> select * from user_sessions;
+Empty set (0.01 sec)
+
+MariaDB [mydb]> SELECT (id, password) FROM users WHERE username = testuser2;
+ERROR 1241 (21000): Operand should contain 1 column(s)
+MariaDB [mydb]> select * from user_sessions;
+Empty set (0.00 sec)
+
+MariaDB [mydb]> select * from user_sessions;
+Empty set (0.00 sec)
+
+MariaDB [mydb]> select * from user_sessions;
+Empty set (0.00 sec)
+
+MariaDB [mydb]> insert into user_sessions (session_id, user_id) values (o6ag05ge4adm9plfnu0cp1th85, 2);
+ERROR 1054 (42S22): Unknown column 'o6ag05ge4adm9plfnu0cp1th85' in 'field list'
+MariaDB [mydb]> insert into user_sessions (session_id, user_id) values ('o6ag05ge4adm9plfnu0cp1th85', 2);
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [mydb]> select * from user_sessions;
++----------------------------+---------+---------------------+
+| session_id                 | user_id | login_time          |
++----------------------------+---------+---------------------+
+| o6ag05ge4adm9plfnu0cp1th85 |       2 | 2020-11-30 13:38:27 |
++----------------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mydb]> select * from user_sessions;
++----------------------------+---------+---------------------+
+| session_id                 | user_id | login_time          |
++----------------------------+---------+---------------------+
+| o6ag05ge4adm9plfnu0cp1th85 |       2 | 2020-11-30 13:38:27 |
++----------------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mydb]> select * from user_sessions;
++----------------------------+---------+---------------------+
+| session_id                 | user_id | login_time          |
++----------------------------+---------+---------------------+
+| o6ag05ge4adm9plfnu0cp1th85 |       2 | 2020-11-30 13:38:27 |
++----------------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mydb]> select from users where username='testuser2';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'from users where username='testuser2'' at line 1
+MariaDB [mydb]> select row from users where username='testuser2';
+ERROR 1054 (42S22): Unknown column 'row' in 'field list'
+MariaDB [mydb]> select all from users where username='testuser2';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'from users where username='testuser2'' at line 1
+MariaDB [mydb]> select * from users where username='testuser2';
++----+-----------+--------------------------------------------------------------+---------------------+---------+
+| id | username  | password                                                     | reg_time            | enabled |
++----+-----------+--------------------------------------------------------------+---------------------+---------+
+|  2 | testuser2 | $2y$10$TAM8hYqfAFQtXrFdNbsUf.lFXljelPecHfUb1ZivcgTWRd8/dNkNO | 2020-11-29 16:50:05 |       1 |
++----+-----------+--------------------------------------------------------------+---------------------+---------+
+1 row in set (0.00 sec)
+
+MariaDB [mydb]> select * from user_sessions;
++----------------------------+---------+---------------------+
+| session_id                 | user_id | login_time          |
++----------------------------+---------+---------------------+
+| o6ag05ge4adm9plfnu0cp1th85 |       2 | 2020-11-30 13:38:27 |
++----------------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mydb]> select * from user_sessions;
++----------------------------+---------+---------------------+
+| session_id                 | user_id | login_time          |
++----------------------------+---------+---------------------+
+| o6ag05ge4adm9plfnu0cp1th85 |       2 | 2020-11-30 13:38:27 |
++----------------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mydb]> select * from user_sessions;
++----------------------------+---------+---------------------+
+| session_id                 | user_id | login_time          |
++----------------------------+---------+---------------------+
+| o6ag05ge4adm9plfnu0cp1th85 |       2 | 2020-11-30 13:38:27 |
++----------------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mydb]> select * from users;
++----+-------------+--------------------------------------------------------------+---------------------+---------+
+| id | username    | password                                                     | reg_time            | enabled |
++----+-------------+--------------------------------------------------------------+---------------------+---------+
+|  1 | testuser    | testpass                                                     | 2020-11-29 16:33:51 |       1 |
+|  2 | testuser2   | $2y$10$TAM8hYqfAFQtXrFdNbsUf.lFXljelPecHfUb1ZivcgTWRd8/dNkNO | 2020-11-29 16:50:05 |       1 |
+|  3 | anotheruser | $2y$10$WAWmZvbK/eP4DL7bK6R0feg.9Zn2lRnftjXcERoymgPmQv6w3feHe | 2020-11-30 09:51:21 |       1 |
+|  4 | testuser3   | $2y$10$QqxqPXZ7nVgp2Vb8a7NEWuWV9yvMVD/t3JjYx3fEz2KaHFnkO4T6u | 2020-11-30 10:57:13 |       1 |
++----+-------------+--------------------------------------------------------------+---------------------+---------+
+4 rows in set (0.00 sec)
+
+MariaDB [mydb]> alter table users add column fname varchar(255);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydb]> select * from users;
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+| id | username    | password                                                     | reg_time            | enabled | fname |
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+|  1 | testuser    | testpass                                                     | 2020-11-29 16:33:51 |       1 | NULL  |
+|  2 | testuser2   | $2y$10$TAM8hYqfAFQtXrFdNbsUf.lFXljelPecHfUb1ZivcgTWRd8/dNkNO | 2020-11-29 16:50:05 |       1 | NULL  |
+|  3 | anotheruser | $2y$10$WAWmZvbK/eP4DL7bK6R0feg.9Zn2lRnftjXcERoymgPmQv6w3feHe | 2020-11-30 09:51:21 |       1 | NULL  |
+|  4 | testuser3   | $2y$10$QqxqPXZ7nVgp2Vb8a7NEWuWV9yvMVD/t3JjYx3fEz2KaHFnkO4T6u | 2020-11-30 10:57:13 |       1 | NULL  |
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [mydb]> delete from users where username='testuser';
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [mydb]> select * from users;
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+| id | username    | password                                                     | reg_time            | enabled | fname |
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+|  2 | testuser2   | $2y$10$TAM8hYqfAFQtXrFdNbsUf.lFXljelPecHfUb1ZivcgTWRd8/dNkNO | 2020-11-29 16:50:05 |       1 | NULL  |
+|  3 | anotheruser | $2y$10$WAWmZvbK/eP4DL7bK6R0feg.9Zn2lRnftjXcERoymgPmQv6w3feHe | 2020-11-30 09:51:21 |       1 | NULL  |
+|  4 | testuser3   | $2y$10$QqxqPXZ7nVgp2Vb8a7NEWuWV9yvMVD/t3JjYx3fEz2KaHFnkO4T6u | 2020-11-30 10:57:13 |       1 | NULL  |
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from users;
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+| id | username    | password                                                     | reg_time            | enabled | fname |
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+|  2 | testuser2   | $2y$10$TAM8hYqfAFQtXrFdNbsUf.lFXljelPecHfUb1ZivcgTWRd8/dNkNO | 2020-11-29 16:50:05 |       1 | NULL  |
+|  3 | anotheruser | $2y$10$WAWmZvbK/eP4DL7bK6R0feg.9Zn2lRnftjXcERoymgPmQv6w3feHe | 2020-11-30 09:51:21 |       1 | NULL  |
+|  4 | testuser3   | $2y$10$QqxqPXZ7nVgp2Vb8a7NEWuWV9yvMVD/t3JjYx3fEz2KaHFnkO4T6u | 2020-11-30 10:57:13 |       1 | NULL  |
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+3 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from users;
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+| id | username    | password                                                     | reg_time            | enabled | fname |
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+|  2 | testuser2   | $2y$10$TAM8hYqfAFQtXrFdNbsUf.lFXljelPecHfUb1ZivcgTWRd8/dNkNO | 2020-11-29 16:50:05 |       1 | NULL  |
+|  3 | anotheruser | $2y$10$WAWmZvbK/eP4DL7bK6R0feg.9Zn2lRnftjXcERoymgPmQv6w3feHe | 2020-11-30 09:51:21 |       1 | NULL  |
+|  4 | testuser3   | $2y$10$QqxqPXZ7nVgp2Vb8a7NEWuWV9yvMVD/t3JjYx3fEz2KaHFnkO4T6u | 2020-11-30 10:57:13 |       1 | NULL  |
+|  5 | testuser    | $2y$10$Yw8nzBMA35xCALZgQVoTT.R7YJtKZxfsQvEo3NZuAw5uZlyWkan/q | 2020-11-30 14:05:28 |       1 | Zach  |
++----+-------------+--------------------------------------------------------------+---------------------+---------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from user_sessions;
++----------------------------+---------+---------------------+
+| session_id                 | user_id | login_time          |
++----------------------------+---------+---------------------+
+| o6ag05ge4adm9plfnu0cp1th85 |       2 | 2020-11-30 13:38:27 |
++----------------------------+---------+---------------------+
+1 row in set (0.00 sec)
+
+MariaDB [mydb]> select * from posts;
++------------------------------------------+---------------------+
+| body                                     | timestamp           |
++------------------------------------------+---------------------+
+| testing                                  | 2020-11-29 15:26:36 |
+| wicked                                   | 2020-11-29 15:26:38 |
+| let's make users!                        | 2020-11-29 15:26:43 |
+| now I need to associate posts with users | 2020-11-30 16:03:34 |
++------------------------------------------+---------------------+
+4 rows in set (0.01 sec)
+
+MariaDB [mydb]> select * from posts;
++------------------------------------------+---------------------+
+| body                                     | timestamp           |
++------------------------------------------+---------------------+
+| testing                                  | 2020-11-29 15:26:36 |
+| wicked                                   | 2020-11-29 15:26:38 |
+| let's make users!                        | 2020-11-29 15:26:43 |
+| now I need to associate posts with users | 2020-11-30 16:03:34 |
+| testing                                  | 2020-12-01 11:12:31 |
++------------------------------------------+---------------------+
+5 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from posts;
++------------------------------------------+---------------------+
+| body                                     | timestamp           |
++------------------------------------------+---------------------+
+| testing                                  | 2020-11-29 15:26:36 |
+| wicked                                   | 2020-11-29 15:26:38 |
+| let's make users!                        | 2020-11-29 15:26:43 |
+| now I need to associate posts with users | 2020-11-30 16:03:34 |
+| testing                                  | 2020-12-01 11:12:31 |
+| awer                                     | 2020-12-01 11:29:52 |
++------------------------------------------+---------------------+
+6 rows in set (0.00 sec)
+
+MariaDB [mydb]> alter table posts
+    -> add column user_id int(10) unsigned not null;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [mydb]> select * from posts;
++------------------------------------------+---------------------+---------+
+| body                                     | timestamp           | user_id |
++------------------------------------------+---------------------+---------+
+| testing                                  | 2020-11-29 15:26:36 |       0 |
+| wicked                                   | 2020-11-29 15:26:38 |       0 |
+| let's make users!                        | 2020-11-29 15:26:43 |       0 |
+| now I need to associate posts with users | 2020-11-30 16:03:34 |       0 |
+| testing                                  | 2020-12-01 11:12:31 |       0 |
+| awer                                     | 2020-12-01 11:29:52 |       0 |
++------------------------------------------+---------------------+---------+
+6 rows in set (0.00 sec)
+
+MariaDB [mydb]>
+disoph@gs1803:~$ sudo apache2ctl start
+[sudo] password for disoph:
+httpd (pid 45) already running
+disoph@gs1803:~$ mysql -u myuser -pmypass mydb
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 419
+Server version: 10.1.47-MariaDB-0ubuntu0.18.04.1 Ubuntu 18.04
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [mydb]> show tables;
++------------------+
+| Tables_in_mydb   |
++------------------+
+| coaches          |
+| games            |
+| match_teams      |
+| matches          |
+| player_positions |
+| players          |
+| posts            |
+| teams            |
+| user_sessions    |
+| users            |
++------------------+
+10 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from posts;
++------------------------------------------+---------------------+---------+
+| body                                     | timestamp           | user_id |
++------------------------------------------+---------------------+---------+
+| testing                                  | 2020-11-29 15:26:36 |       0 |
+| wicked                                   | 2020-11-29 15:26:38 |       0 |
+| let's make users!                        | 2020-11-29 15:26:43 |       0 |
+| now I need to associate posts with users | 2020-11-30 16:03:34 |       0 |
+| testing                                  | 2020-12-01 11:12:31 |       0 |
+| awer                                     | 2020-12-01 11:29:52 |       0 |
++------------------------------------------+---------------------+---------+
+6 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from users;
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+| id | username     | password                                                     | reg_time            | enabled | fname |
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+|  2 | testuser2    | $2y$10$TAM8hYqfAFQtXrFdNbsUf.lFXljelPecHfUb1ZivcgTWRd8/dNkNO | 2020-11-29 16:50:05 |       1 | NULL  |
+|  3 | anotheruser  | $2y$10$WAWmZvbK/eP4DL7bK6R0feg.9Zn2lRnftjXcERoymgPmQv6w3feHe | 2020-11-30 09:51:21 |       1 | NULL  |
+|  4 | testuser3    | $2y$10$QqxqPXZ7nVgp2Vb8a7NEWuWV9yvMVD/t3JjYx3fEz2KaHFnkO4T6u | 2020-11-30 10:57:13 |       1 | NULL  |
+|  5 | testuser     | $2y$10$Yw8nzBMA35xCALZgQVoTT.R7YJtKZxfsQvEo3NZuAw5uZlyWkan/q | 2020-11-30 14:05:28 |       1 | Zach  |
+|  8 | testuser4    | $2y$10$nAQ9C.KfW1XzgcpdpUz8n.OO/6I4MNxC8CWTySD2N.gOgqAm6VoLO | 2020-11-30 15:39:42 |       1 | Zach  |
+|  9 | newuser      | $2y$10$v0qZeb1rgclKe4rZj0.dbOTvqoOib8LCUfTkQnGPOMsh9T1bjdi0W | 2020-11-30 16:09:28 |       1 | Zach  |
+| 10 | anotheruser2 | $2y$10$3YbQXFCYFjfpD6bme.SEnOAWO1RrKksRiG.jkO0WEg0hsq5lFQMb2 | 2020-12-01 11:52:10 |       1 | Zach  |
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+7 rows in set (0.00 sec)
+
+MariaDB [mydb]> delete from users where username='testuser2';
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [mydb]> delete from users where username='anotheruser';
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [mydb]> delete from users where username='testuser3';
+Query OK, 1 row affected (0.00 sec)
+
+MariaDB [mydb]> select * from users;
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+| id | username     | password                                                     | reg_time            | enabled | fname |
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+|  5 | testuser     | $2y$10$Yw8nzBMA35xCALZgQVoTT.R7YJtKZxfsQvEo3NZuAw5uZlyWkan/q | 2020-11-30 14:05:28 |       1 | Zach  |
+|  8 | testuser4    | $2y$10$nAQ9C.KfW1XzgcpdpUz8n.OO/6I4MNxC8CWTySD2N.gOgqAm6VoLO | 2020-11-30 15:39:42 |       1 | Zach  |
+|  9 | newuser      | $2y$10$v0qZeb1rgclKe4rZj0.dbOTvqoOib8LCUfTkQnGPOMsh9T1bjdi0W | 2020-11-30 16:09:28 |       1 | Zach  |
+| 10 | anotheruser2 | $2y$10$3YbQXFCYFjfpD6bme.SEnOAWO1RrKksRiG.jkO0WEg0hsq5lFQMb2 | 2020-12-01 11:52:10 |       1 | Zach  |
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [mydb]> update users
+    -> set enabled = 0
+    -> where id = 5;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [mydb]> select * from users;
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+| id | username     | password                                                     | reg_time            | enabled | fname |
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+|  5 | testuser     | $2y$10$Yw8nzBMA35xCALZgQVoTT.R7YJtKZxfsQvEo3NZuAw5uZlyWkan/q | 2020-11-30 14:05:28 |       0 | Zach  |
+|  8 | testuser4    | $2y$10$nAQ9C.KfW1XzgcpdpUz8n.OO/6I4MNxC8CWTySD2N.gOgqAm6VoLO | 2020-11-30 15:39:42 |       1 | Zach  |
+|  9 | newuser      | $2y$10$v0qZeb1rgclKe4rZj0.dbOTvqoOib8LCUfTkQnGPOMsh9T1bjdi0W | 2020-11-30 16:09:28 |       1 | Zach  |
+| 10 | anotheruser2 | $2y$10$3YbQXFCYFjfpD6bme.SEnOAWO1RrKksRiG.jkO0WEg0hsq5lFQMb2 | 2020-12-01 11:52:10 |       1 | Zach  |
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from users;
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+| id | username     | password                                                     | reg_time            | enabled | fname |
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+|  5 | testuser     | $2y$10$Yw8nzBMA35xCALZgQVoTT.R7YJtKZxfsQvEo3NZuAw5uZlyWkan/q | 2020-11-30 14:05:28 |       1 | Zach  |
+|  8 | testuser4    | $2y$10$nAQ9C.KfW1XzgcpdpUz8n.OO/6I4MNxC8CWTySD2N.gOgqAm6VoLO | 2020-11-30 15:39:42 |       1 | Zach  |
+|  9 | newuser      | $2y$10$v0qZeb1rgclKe4rZj0.dbOTvqoOib8LCUfTkQnGPOMsh9T1bjdi0W | 2020-11-30 16:09:28 |       1 | Zach  |
+| 10 | anotheruser2 | $2y$10$3YbQXFCYFjfpD6bme.SEnOAWO1RrKksRiG.jkO0WEg0hsq5lFQMb2 | 2020-12-01 11:52:10 |       1 | Zach  |
++----+--------------+--------------------------------------------------------------+---------------------+---------+-------+
+4 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from posts;
++------------------------------------------+---------------------+---------+
+| body                                     | timestamp           | user_id |
++------------------------------------------+---------------------+---------+
+| testing                                  | 2020-11-29 15:26:36 |       0 |
+| wicked                                   | 2020-11-29 15:26:38 |       0 |
+| let's make users!                        | 2020-11-29 15:26:43 |       0 |
+| now I need to associate posts with users | 2020-11-30 16:03:34 |       0 |
+| testing                                  | 2020-12-01 11:12:31 |       0 |
+| awer                                     | 2020-12-01 11:29:52 |       0 |
+| will this work ...                       | 2020-12-01 12:13:28 |       0 |
++------------------------------------------+---------------------+---------+
+7 rows in set (0.00 sec)
+
+MariaDB [mydb]> insert into posts values ('test', '2020-12-01 12:14:00', 5);
+Query OK, 1 row affected (0.01 sec)
+
+MariaDB [mydb]> select * from posts;
++------------------------------------------+---------------------+---------+
+| body                                     | timestamp           | user_id |
++------------------------------------------+---------------------+---------+
+| testing                                  | 2020-11-29 15:26:36 |       0 |
+| wicked                                   | 2020-11-29 15:26:38 |       0 |
+| let's make users!                        | 2020-11-29 15:26:43 |       0 |
+| now I need to associate posts with users | 2020-11-30 16:03:34 |       0 |
+| testing                                  | 2020-12-01 11:12:31 |       0 |
+| awer                                     | 2020-12-01 11:29:52 |       0 |
+| will this work ...                       | 2020-12-01 12:13:28 |       0 |
+| test                                     | 2020-12-01 12:14:00 |       5 |
+| hey                                      | 2020-12-01 12:14:15 |       0 |
++------------------------------------------+---------------------+---------+
+9 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from posts;
++------------------------------------------+---------------------+---------+
+| body                                     | timestamp           | user_id |
++------------------------------------------+---------------------+---------+
+| testing                                  | 2020-11-29 15:26:36 |       0 |
+| wicked                                   | 2020-11-29 15:26:38 |       0 |
+| let's make users!                        | 2020-11-29 15:26:43 |       0 |
+| now I need to associate posts with users | 2020-11-30 16:03:34 |       0 |
+| testing                                  | 2020-12-01 11:12:31 |       0 |
+| awer                                     | 2020-12-01 11:29:52 |       0 |
+| will this work ...                       | 2020-12-01 12:13:28 |       0 |
+| test                                     | 2020-12-01 12:14:00 |       5 |
+| hey                                      | 2020-12-01 12:14:15 |       0 |
+| hey                                      | 2020-12-01 12:16:22 |       0 |
+| hey                                      | 2020-12-01 12:16:58 |       0 |
+| hey?                                     | 2020-12-01 12:17:03 |       5 |
++------------------------------------------+---------------------+---------+
+12 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from posts;
++------------------------------------------+---------------------+---------+
+| body                                     | timestamp           | user_id |
++------------------------------------------+---------------------+---------+
+| testing                                  | 2020-11-29 15:26:36 |       0 |
+| wicked                                   | 2020-11-29 15:26:38 |       0 |
+| let's make users!                        | 2020-11-29 15:26:43 |       0 |
+| now I need to associate posts with users | 2020-11-30 16:03:34 |       0 |
+| testing                                  | 2020-12-01 11:12:31 |       0 |
+| awer                                     | 2020-12-01 11:29:52 |       0 |
+| will this work ...                       | 2020-12-01 12:13:28 |       0 |
+| test                                     | 2020-12-01 12:14:00 |       5 |
+| hey                                      | 2020-12-01 12:14:15 |       0 |
+| hey                                      | 2020-12-01 12:16:22 |       0 |
+| hey                                      | 2020-12-01 12:16:58 |       0 |
+| hey?                                     | 2020-12-01 12:17:03 |       5 |
+| do this work?                            | 2020-12-01 12:20:41 |      11 |
++------------------------------------------+---------------------+---------+
+13 rows in set (0.00 sec)
+
+MariaDB [mydb]> delete from posts where user_id = 0;
+Query OK, 10 rows affected (0.01 sec)
+
+MariaDB [mydb]> select * from posts;
++---------------+---------------------+---------+
+| body          | timestamp           | user_id |
++---------------+---------------------+---------+
+| test          | 2020-12-01 12:14:00 |       5 |
+| hey?          | 2020-12-01 12:17:03 |       5 |
+| do this work? | 2020-12-01 12:20:41 |      11 |
++---------------+---------------------+---------+
+3 rows in set (0.00 sec)
+
+MariaDB [mydb]> select * from posts;
++---------------+---------------------+---------+
+| body          | timestamp           | user_id |
++---------------+---------------------+---------+
+| test          | 2020-12-01 12:14:00 |       5 |
+| hey?          | 2020-12-01 12:17:03 |       5 |
+| do this work? | 2020-12-01 12:20:41 |      11 |
+| yep!          | 2020-12-01 12:21:56 |      12 |
++---------------+---------------------+---------+
+4 rows in set (0.00 sec)
+
+MariaDB [mydb]>  
+MariaDB [mydb]> select * from posts;
++-------------------------------+---------------------+---------+
+| body                          | timestamp           | user_id |
++-------------------------------+---------------------+---------+
+| test                          | 2020-12-01 12:14:00 |       5 |
+| hey?                          | 2020-12-01 12:17:03 |       5 |
+| do this work?                 | 2020-12-01 12:20:41 |      11 |
+| yep!                          | 2020-12-01 12:21:56 |      12 |
+| not much!                     | 2020-12-01 12:42:22 |      13 |
+| fuck i can't believe it works | 2020-12-01 12:42:58 |       5 |
++-------------------------------+---------------------+---------+
+6 rows in set (0.00 sec)
+
+MariaDB [mydb]>

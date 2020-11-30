@@ -1,11 +1,25 @@
 <?php
     // check for existing session and redirect to login page if session variables aren't set
     if (!isset($_SESSION)) {
+        // for some reason it's showing a set session even after i've "unset" one on logout, so... just a second check to see if there isn't a username key in the session array. redirect to homepage if so.
         session_start();
         if (!array_key_exists('username', $_SESSION)) {
             header("Location: /blog1/index.php");
+        } else {
+            // user is currently logged in. save user variables to session store.
+            $fname = $_SESSION['fname'];
+            $username = $_SESSION['username'];
+            $user_id = $_SESSION['user_id'];
+
+            // establish server connection
+            $servername = "localhost";
+            $username = "myuser";
+            $password = "mypass";
+            $dbname = "mydb";
+            $connection = mysqli_connect($servername, $username, $password, $dbname);
         }
     } else {
+        // in theory if there is no session set, redirect to homepage
         header("Location: /blog1/index.php");
     } 
 ?>
@@ -26,11 +40,8 @@
         // um check if a user is logged in... we only get the dashboard if we're logged in... right?
         // so ..................... how tf we do this lol
         // session_start();
-        $fname = $_SESSION['fname'];
-        $username = $_SESSION['username'];
         // echo $fname, $username;
     ?>
-    <!-- a logout button belongs in the nav.... -->
     <nav>
         <ul>
             <li><a href="/blog1/dashboard.php">Home</a></li>
@@ -38,29 +49,21 @@
         </ul>
     </nav>
     <section>
-        <h2>What's on your mind, <?= $fname ?>?</h2>
+        <?php
+            if ($_SESSION['just_reenabled'] == true) { ?>
+                <h2>Welcome back, <?= $fname ?>!</h2>
+        <?php } else { ?>
+            <h2>What's on your mind, <?= $fname ?>?</h2>
+        <?php } ?>
         <p class="char-remaining">
             Characters: <span id="char-remaining-count"></span>
         </p>
         <form action="post/create.php" method="post">
             <textarea name="body" class="post-textarea" cols="60" rows="10"></textarea>
-            <button type="submit" class="submit-button">Submit</button>
+            <input type="hidden" name="user_id" value=<?= $user_id ?>>
+            <button type="submit" class="submit-button button-disabled" disabled>Submit</button>
         </form>
     </section>
-    <?php 
-        $servername = "localhost";
-        $username = "myuser";
-        $password = "mypass";
-        $dbname = "mydb";
-        // $conn = mysqli_connect(, "myuser", "mypass", "mydb");
-        // $connection = new mysqli($servername, $username, $password, $dbname);
-        $connection = mysqli_connect($servername, $username, $password, $dbname);
-        // check connection
-        // if (!$connection) {
-        //     die("Connection failed: " . mysqli_connect_error());
-        // }
-
-        ?>
     <section>
         <h2>Posts</h2>
         <div id="posts-list"></div>
@@ -68,27 +71,23 @@
             // query table
             $result = mysqli_query($connection, "SELECT * FROM posts ORDER BY timestamp DESC;");
             // order by timestamp desc returns posts in ascending order i.e. with most recent post first.
-            foreach ($result as $row) { ?>
-            <!-- // for ($i = count($result); $i > -1; $i--) { ?> -->
+            foreach ($result as $row) { 
+                // grab user details. no worries about um sql injection here, right
+                $post_user_id = $row['user_id'];
+                $user_query = $connection->prepare("SELECT * FROM users WHERE id = ?;");
+                $user_query->bind_param("i", $post_user_id);
+                $user_query->execute();
+                $user_result = $user_query->get_result();
+                $user_row = $user_result->fetch_assoc();
+                ?>
                 <div class="post-container">
-                    <!-- <div> -->
-                        <span class="timestamp">Posted at: <?= $row['timestamp'] ?></span>
-                    <!-- </div> -->
+                    <span class="timestamp">Posted by <?= $user_row['username'] ?> at <?= $row['timestamp'] ?></span>
                     <p>
                         <?= $row['body']; ?>
-                        <!-- // $result[$i]['body'];  -->
                     </p>
                 </div>
             <?php }
         ?>
-        <!-- <div class="post-container">
-            <div>
-                Posted at: ....
-            </div>
-            <p>
-                The post stuff...
-            </p>
-        </div> -->
     </section>    
     <script src="script.js"></script>    
 </body>
