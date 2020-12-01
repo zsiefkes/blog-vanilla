@@ -1,4 +1,16 @@
 current task:
+customize profile page for the person who's viewing their own page
+
+- get CRUD going for users and posts.
+    - Create post - done
+    - Read post
+    - Update post
+    - Delete post
+
+    - Create user - done
+    - Read user - done
+    - Update user
+    - Delete user
 
 steps to achieve this:
 
@@ -19,23 +31,17 @@ up ahead:
 - be able to "deactivate" your account. make use of checking a user is enabled
 
 future goal:
-- get CRUD going for users and posts.
 
-other taskss:
-- dashboard is like a newsfeed. shows all posts from all users
-- create a post page that display all posts
+nice to haves:
+- beside timestamp or instead of timestamp, put in eg. "one hour ago, 2 days ago"
+
+other tasks:
+- style the navbar!
 - do we wanna be able to comment too? maybe get the rest of the things working first, come to that later if you have time.
 - want to be able to delete a post if it's your post.
 - want to be able to edit your user details if you are the logged in user on your own profile page.
 - implement js error handling on forms
 - also want to add error checking to the forms, use javascript for this??????? 
-- i'm not using very much javascript which seems silly 'cause js be my wheelhouse :/
-- but.... 
-- ah well. i could switch it up to use json to send the stuff instead of the forms. maybe. what do you think?
-- would certainly help make the code more modular. but i don't want to break it....
 - i think the most important thing to do at this point is to get an MVP going. you need to do a little more layout css shit. please. just copy twitter
 - i'd like to spend some time doing a responsive css layout
-- this backend rubbish is a waste of your time, sorry
-- same with javascript. it's better you focus on stuff you'd like to improve on i.e. css
-- oh, okay. 
 

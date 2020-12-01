@@ -64,10 +64,15 @@
     <section>
         <?php
             // user profile details
+            
             // their name and... other optional stuff? location?
             // after a user signs up, maybe direct them to their profile to fill shit out, or something
             // location, occupation, website. dunno
-            ?>
+        ?>
+        <!-- <ul class="profile-details">
+            <li>Name: <?= $profile_username ?></li>
+        </ul> -->
+        <!-- meh. i don't see the need for this section rn -->
     </section>
     <section>
         <h2>Posts by <?= $profile_username ?></h2>

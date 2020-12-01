@@ -76,9 +76,10 @@
             // query table
             $result = mysqli_query($connection, "SELECT * FROM posts ORDER BY timestamp DESC;");
             // order by timestamp desc returns posts in ascending order i.e. with most recent post first.
-            foreach ($result as $row) { 
+            foreach ($result as $post) { 
                 // grab details of poster
-                $post_user_id = $row['user_id'];
+                $post_user_id = $post['user_id'];
+                $post_id = $post['id'];
                 $user_query = $connection->prepare("SELECT * FROM users WHERE id = ?;");
                 $user_query->bind_param("i", $post_user_id);
                 $user_query->execute();
@@ -91,10 +92,15 @@
                         <a href="/blog1/profile.php?id=<?=$post_user_id?>">
                             <?= $user_row['username'] ?>
                         </a>
-                        at <?= $row['timestamp'] ?>
+                        at <?= $post['timestamp'] ?>
+                        <?php
+                            if ($post_user_id == $user_id) { ?>
+                                <a class="delete-post" onclick="return confirm('Are you sure you wish to delete this post?')" href="/blog1/post/destroy.php?id=<?=$post_id?>">Delete post</a>
+                            <?php }
+                        ?>
                     </span>
                     <p>
-                        <?= $row['body']; ?>
+                        <?= $post['body']; ?>
                     </p>
                 </div>
             <?php }

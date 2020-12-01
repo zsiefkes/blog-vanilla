@@ -51,6 +51,10 @@ textarea.post-textarea {
     font-size: 1.2em;
 }
 
+ul {
+    list-style-type: none;
+}
+
 .submit-button {
     display: block;
     background-color: #2f2f2f;
@@ -87,6 +91,3 @@ textarea.post-textarea {
     color: rgb(176, 16, 250);
 }
 
-.signup-button {
-
-}
