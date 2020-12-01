@@ -11,12 +11,12 @@
             $username = $_SESSION['username'];
             $user_id = $_SESSION['user_id'];
 
-            // establish server connection
+            // establish database connection
             $servername = "localhost";
-            $username = "myuser";
-            $password = "mypass";
+            $dbusername = "myuser";
+            $dbpassword = "mypass";
             $dbname = "mydb";
-            $connection = mysqli_connect($servername, $username, $password, $dbname);
+            $connection = mysqli_connect($servername, $dbusername, $dbpassword, $dbname);
         }
     } else {
         // in theory if there is no session set, redirect to homepage
@@ -45,6 +45,11 @@
     <nav>
         <ul>
             <li><a href="/blog1/dashboard.php">Home</a></li>
+            <?php
+                if (array_key_exists('username', $_SESSION)) { ?>
+                    <li><a href="/blog1/profile.php">Profile</a></li>
+                <?php }
+            ?>
             <li><a href="/blog1/session/end.php">Logout</a></li>
         </ul>
     </nav>
@@ -72,7 +77,7 @@
             $result = mysqli_query($connection, "SELECT * FROM posts ORDER BY timestamp DESC;");
             // order by timestamp desc returns posts in ascending order i.e. with most recent post first.
             foreach ($result as $row) { 
-                // grab user details. no worries about um sql injection here, right
+                // grab details of poster
                 $post_user_id = $row['user_id'];
                 $user_query = $connection->prepare("SELECT * FROM users WHERE id = ?;");
                 $user_query->bind_param("i", $post_user_id);
@@ -81,7 +86,13 @@
                 $user_row = $user_result->fetch_assoc();
                 ?>
                 <div class="post-container">
-                    <span class="timestamp">Posted by <?= $user_row['username'] ?> at <?= $row['timestamp'] ?></span>
+                    <span class="timestamp">
+                        Posted by 
+                        <a href="/blog1/profile.php?id=<?=$post_user_id?>">
+                            <?= $user_row['username'] ?>
+                        </a>
+                        at <?= $row['timestamp'] ?>
+                    </span>
                     <p>
                         <?= $row['body']; ?>
                     </p>
