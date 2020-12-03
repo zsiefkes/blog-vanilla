@@ -22,13 +22,14 @@
         // in theory if there is no session set, redirect to homepage
         header("Location: /blog1/index.php");
     } 
-?>
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <script src="js/dashboard-script.js"></script>    
     <title>Blog</title>
 </head>
 <body>
@@ -47,10 +48,10 @@
             <li><a href="/blog1/dashboard.php">Home</a></li>
             <?php
                 if (array_key_exists('username', $_SESSION)) { ?>
-                    <li><a href="/blog1/profile.php">Profile</a></li>
+                    <li><a href="user/read.php">Profile</a></li>
                 <?php }
             ?>
-            <li><a href="/blog1/session/end.php">Logout</a></li>
+            <li><a href="session/end.php">Logout</a></li>
         </ul>
     </nav>
     <section>
@@ -64,14 +65,14 @@
             Characters: <span id="char-remaining-count"></span>
         </p>
         <form action="post/create.php" method="post">
-            <textarea name="body" class="post-textarea" cols="60" rows="10"></textarea>
+            <textarea name="body" id="post-textarea" cols="60" rows="10"></textarea>
             <input type="hidden" name="user_id" value=<?= $user_id ?>>
             <button type="submit" class="submit-button button-disabled" disabled>Submit</button>
         </form>
     </section>
     <section>
         <h2>Posts</h2>
-        <div id="posts-list"></div>
+        <div id="posts-list">
         <?php
             // query table
             $result = mysqli_query($connection, "SELECT * FROM posts ORDER BY timestamp DESC;");
@@ -86,26 +87,31 @@
                 $user_result = $user_query->get_result();
                 $user_row = $user_result->fetch_assoc();
                 ?>
-                <div class="post-container">
-                    <span class="timestamp">
-                        Posted by 
-                        <a href="/blog1/profile.php?id=<?=$post_user_id?>">
-                            <?= $user_row['username'] ?>
-                        </a>
-                        at <?= $post['timestamp'] ?>
-                        <?php
-                            if ($post_user_id == $user_id) { ?>
-                                <a class="delete-post" onclick="return confirm('Are you sure you wish to delete this post?')" href="/blog1/post/destroy.php?id=<?=$post_id?>">Delete post</a>
-                            <?php }
-                        ?>
-                    </span>
-                    <p>
-                        <?= $post['body']; ?>
-                    </p>
-                </div>
+
+                <!-- display first ??? characters of post with link to full post -->
+                <a class="post-link" href="/blog1/post/read.php?id=<?=$post_id?>">
+                    <div class="post-container">
+                        <span class="timestamp">
+                            Posted by 
+                            <a href="user/read.php?id=<?=$post_user_id?>">
+                                <?= $user_row['username'] ?>
+                            </a>
+                            at <?= $post['timestamp'] ?>
+                            <?php
+                                if ($post_user_id == $user_id) { ?>
+                                    <a class="edit-post" href="post/read.php?id=<?=$post_id?>&edit=1">Edit post</a>
+                                    <a class="delete-post" onclick="return confirm('Are you sure you wish to delete this post?')" href="post/destroy.php?id=<?=$post_id?>">Delete post</a>
+                                <?php }
+                            ?>
+                        </span>
+                        <p>
+                            <?= $post['body']; ?>
+                        </p>
+                    </div>
+                </a>
             <?php }
         ?>
+        </div>
     </section>    
-    <script src="script.js"></script>    
 </body>
 </html>

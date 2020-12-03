@@ -33,7 +33,7 @@
     
         // if id was not provided in url, check if user is logged in and default to their profile
     } else if (array_key_exists('user_id', $_SESSION)) {
-        header("Location: /blog1/profile.php?id=" . $_SESSION['user_id']);
+        header("Location: read.php?id=" . $_SESSION['user_id']);
 
         // user not logged in, no id provided, redirect to landing page
     } else {
@@ -46,7 +46,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <title></title>
 </head>
 <body>
@@ -55,7 +55,7 @@
             <li><a href="/blog1/dashboard.php">Home</a></li>
             <?php
                 if (array_key_exists('username', $_SESSION)) { ?>
-                    <li><a href="/blog1/profile.php">Profile</a></li>
+                    <li><a href="../user/read.php">Profile</a></li>
                 <?php }
             ?>
             <li><a href="/blog1/session/end.php">Logout</a></li>
@@ -88,9 +88,18 @@
             // $posts = $posts_result->fetch_assoc();
             // order by timestamp desc returns posts in ascending order i.e. with most recent post first.
             foreach ($posts as $row) { 
+                // grab post details
+                $post_user_id = $row['user_id'];
+                $post_id = $row['id'];
                 ?>
                 <div class="post-container">
                     <span class="timestamp">Posted by <?= $profile_username ?> at <?= $row['timestamp'] ?></span>
+                    <?php
+                        if ($post_user_id == $user_id) { ?>
+                            <a class="edit-post" href="../post/read.php?id=<?=$post_id?>&edit=1">Edit post</a>
+                            <a class="delete-post" onclick="return confirm('Are you sure you wish to delete this post?')" href="post/destroy.php?id=<?=$post_id?>">Delete post</a>
+                        <?php }
+                    ?>
                     <p>
                         <?= $row['body']; ?>
                     </p>

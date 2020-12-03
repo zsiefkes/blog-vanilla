@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(event) {
     let posts = [];
 
-    let postTextarea = document.querySelector(".post-textarea");
+    let postTextarea = document.querySelector("#post-textarea");
     const maxChar = 500;
     let charRemaining = document.querySelector("#char-remaining-count");
     let submitButton = document.querySelector(".submit-button");

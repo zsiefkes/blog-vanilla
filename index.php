@@ -18,6 +18,12 @@
 </head>
 <body>
     <h1>DIGO</h1>
+    <p>
+        To join in, log in or sign up.
+    </p>
+    <p>
+        The service will always be free! YOU are the product ;)
+    </p>
     <h2>Log In</h2>
     <form action="session/start.php">
         <div>
