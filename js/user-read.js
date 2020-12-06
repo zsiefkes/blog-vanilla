@@ -2,6 +2,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
     
     // Initialize DOM objects
     let editUserButton = document.querySelector("#edit-user-button");
+    // if there's no edituserbutton in the dom, we're on someone else's profile page.
+    if (!editUserButton) {
+        
+    }
+
     let editUserDetailsContainer = document.querySelector(".edit-user-details");
     let editPasswordButton = document.querySelector("#edit-password-button");
     let newPasswordContainer = document.querySelector("#new-password-container");
@@ -9,6 +14,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let formError = document.querySelector("#form-error");
     let submitUserForm = document.querySelector("#submit-user-form");
 
+    // let deactivateUserButton = document.querySelector("#deactivate-user-button");
+    let deleteUserButton = document.querySelector("#delete-user-button");
     let newPasswordField = document.querySelector('input[name=\'password\']');
     let newPasswordCheckField = document.querySelector('input[name=\'password-check\']');
     let usernameField = document.querySelector('input[name=\'username\']');
@@ -26,11 +33,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
     function enableEditPassword() {
         newPasswordContainer.style.display = "block";
         passwordChangeFlag.value = 1;
+        editPasswordButton.innerText = "Don't change password";
         isChangingPassword = true;
     }
     function disableEditPassword() {
         newPasswordContainer.style.display = "none";
         passwordChangeFlag.value = 0;
+        editPasswordButton.innerText = "Change password";
         isChangingPassword = false;
     }
 
@@ -47,24 +56,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
     function enableEditUser() {
         isEditing = true;
         editUserDetailsContainer.style.display = "block";
-        editUserButton.innerText = "Cancel";
+        // deactivateUserButton.style.display = "inline";
+        deleteUserButton.style.display = "inline";
+        editUserButton.innerText = "Cancel editing";
     }
     function disableEditUser() {
         isEditing = false;
         editUserDetailsContainer.style.display = "none";
+        // deactivateUserButton.style.display = "none";
+        deleteUserButton.style.display = "none";
         editUserButton.innerText = "Edit details";
     }
 
-    // check the new passwords match
-    // function checkNewPasswordsMatch() {
-    //     // form submit button has inline ternary function that will not allow user to submit form if new passwords don't match
-    //     // still need to write in an error message though
-    //     if (document.querySelector('input[name=\'password\']').value == document.querySelector('input[name=\'password-check\']').value) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
-    // }
     // edit user form error checker
     submitUserForm.addEventListener("click", function(event) {
         // boolean lol always find myself wanting to start the variable declaration with the type now. that's great
@@ -99,12 +102,20 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
         // check for empty strings
         if (usernameField.value == "") {
-            formError.innerText += "\nUsername must be at least 1 character in length.";
+            if (hasError) {
+                // add error on newline if there's already one present
+                formError.innerText += "\n";
+            }
+            formError.innerText += "Username must be at least 1 character in length.";
             // event.preventDefault();
             hasError = true;
         }
         if (fnameField.value == "") {
-            formError.innerText += "\nPlease provide a first name.";
+            if (hasError) {
+                // add error on newline if there's already one present
+                formError.innerText += "\n";
+            }
+            formError.innerText += "Please provide a first name.";
             // event.preventDefault();
             hasError = true;
         } 
@@ -118,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             // formError.innerText = "";
         }
     });
-    
+
     // initialize page with editing disabled
     disableEditUser();
     disableEditPassword();

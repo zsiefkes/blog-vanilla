@@ -1,32 +1,11 @@
+- include mysql commands to initialize tables in submission!!!
+- also remove all mentions of blog1. use cmd+shift+f to do the search
 
-current task:
-- update route needs to validate password. grab this code from the login 
-- do a series of if's that checks for the presence of each of the um. things
-- oh no wait.
-- they'll all be sent. eh. yeah
-- so just fill in the query with fname, username, 
+home stretch!
 
-- edit password button should unhide the passsword submit thing, and um.
-- change the value of a hidden input about whether we're updating the password or not, from 0 to 1. switch back if you decide not to change password
-- also new password field should have two enter password fields.
-- maybe use js to keep the update details button disabled unless the new passwords match, or whatevs..
-
-- edit user
-
-- just do the same thing you did to edit a post.
-- javascript that will show some elements that submit to an update post route
-- all you can update is ... your username and your fname. how about password?
-- do you need to enter your password to update your details? imma say yes
-- okay.
-
-edit user: show these but not 
-username edit
-fname edit
-change password
-password
-confirm password
-
-enter old password to update details
+current tasks:
+- delete user back-end
+- return password wrong error message
 
 
 - deactivate user
@@ -46,10 +25,9 @@ enter old password to update details
 
     - Create user - done
     - Read user - done
-    - Update user
-    - Delete useris
-        - yikes, to delete a user you need to first remove all of their posts
-        - once we have comments too, you need to delete all their comments too.
+    - Update user - done
+    - Delete user
+        - yikes, to delete a user you need to first remove all of their posts too.
         - or, maybe just leave the things. bleugh
 
 steps to achieve this:

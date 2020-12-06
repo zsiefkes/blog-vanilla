@@ -55,7 +55,7 @@ ul {
     list-style-type: none;
 }
 
-.submit-button {
+button, input[type=submit] {
     display: block;
     background-color: #2f2f2f;
     color: #528AAE;
@@ -65,13 +65,13 @@ ul {
     font-weight: 500;
 }
 
-.submit-button:hover {
+button, input[type=submit]:hover {
     /* background-color: #528AAE; */
     border: 1px #91BAD6 solid;
     color: #91BAD6;
 }
 
-.submit-button.button-disabled:hover {
+input[type=submit], button.button-disabled:hover {
     color: #528AAE;
     border: 1px #528AAE solid;
 

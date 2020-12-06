@@ -12,12 +12,8 @@
     } 
     
     // establish database connection
-    $servername = "localhost";
-    $dbusername = "myuser";
-    $dbpassword = "mypass";
-    $dbname = "mydb";
-    $connection = mysqli_connect($servername, $dbusername, $dbpassword, $dbname);
-    
+    $connection = include_once("../connect-to-db.php");
+
     // load in variable corresponding to this user's profile
     if (isset($_REQUEST['id'])) {
         $profile_id = $_REQUEST['id'];
@@ -48,7 +44,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css">
-    <script src="../js/user-read.js"></script>    
+    <?php
+        // only need the javascript if it's your profile page
+        if ($user_id == $profile_id) { ?>
+            <script src="../js/user-read.js"></script>    
+        <?php }
+    ?>
     <title></title>
 </head>
 <body>
@@ -78,7 +79,7 @@
             ?>
             <!-- the editing stuff that will be hidden by default: -->
         </ul>
-        <div class="edit-user-details">
+        <div class="edit-user-details" style="display: none;">
             <form action="update.php?id=<?=$profile_id?>" method="post">
                 <div>
                     <label for="username">Username:</label>
@@ -94,7 +95,9 @@
                     <input type="password" name="password_current">
                 </div>
                 <input type="hidden" name="user_id" value=<?=$user_id?>>
-                <div><a id="edit-password-button" href="#">Edit password</a></div>
+                <div>
+                    <a id="edit-password-button" href="#">Change password</a>
+                </div>
                 <div id="new-password-container">
                     <label for="password">New password:</label>
                     <input type="password" name="password">
@@ -102,12 +105,10 @@
                     <input type="password" name="password-check">
                 </div>    
                 <input type="hidden" name="password_change" value=0 id="password-change-flag">
-                <span id="form-error"></span>
-
-                <!-- probs wanna stop from submitting if any of the stuff is empty strings too, right -->
-                <!-- stop submit button from going through if user is changing password and the new passwords don't match. in the js will check this too and add an error msg -->
-                
+                <span id="form-error"></span>              
                 <input type="submit" id="submit-user-form" value="Update details">
+                <!-- <a id="deactivate-user-button" style="diplay: none;" href="deactivate-portal">Deactivate account</a> -->
+                <a id="delete-user-button" style="display: none;" href="delete.php">Delete account</a>
             </form>
         </div>
         <!-- <ul class="profile-details">

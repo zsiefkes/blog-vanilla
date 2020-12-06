@@ -1,5 +1,6 @@
 <?php
-    $connection = new mysqli("localhost", "myuser", "mypass", "mydb");
+    // $connection = new mysqli("localhost", "myuser", "mypass", "mydb");
+    $connection = include_once("../connect-to-db.php");
 
     if (isset($_REQUEST['body'])) {
         if ($_REQUEST['body'] == '') {

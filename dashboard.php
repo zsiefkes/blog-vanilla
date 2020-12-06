@@ -12,11 +12,12 @@
             $user_id = $_SESSION['user_id'];
 
             // establish database connection
-            $servername = "localhost";
-            $dbusername = "myuser";
-            $dbpassword = "mypass";
-            $dbname = "mydb";
-            $connection = mysqli_connect($servername, $dbusername, $dbpassword, $dbname);
+            // $servername = "localhost";
+            // $dbusername = "myuser";
+            // $dbpassword = "mypass";
+            // $dbname = "mydb";
+            // $connection = mysqli_connect($servername, $dbusername, $dbpassword, $dbname);
+            $connection = include_once("connect-to-db.php");
         }
     } else {
         // in theory if there is no session set, redirect to homepage

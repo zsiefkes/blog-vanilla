@@ -4,7 +4,7 @@
         // header("Location: /blog1/dashboard.php");
         session_start();
         if (array_key_exists('username', $_SESSION)) {
-            header("Location: /blog1/dashboard.php");
+            header("Location: ../dashboard.php");
         }
     }
 ?>
@@ -17,12 +17,12 @@
     <title>Log In or Sign Up</title>
 </head>
 <body>
-    <h1>DIGO</h1>
+    <h1>DEEGO</h1>
     <p>
         To join in, log in or sign up.
     </p>
     <p>
-        The service will always be free! YOU are the product ;)
+        This service will always be free! YOU are the product ;)
     </p>
     <h2>Log In</h2>
     <form action="session/start.php">
@@ -49,6 +49,9 @@
         Password: <input type="password" name="password"><span class="form-error"></span>
     </div>
         <input type="submit" value="Register" id="signup-button">
+        <?php if (array_key_exists('error_msg', $_SESSION)) { ?>
+            <span class="error-message" style="color: red; style: block;"><?=$_SESSION['error_msg']?></span>
+        <?php } ?>
     </form>
 </body>
 </html>

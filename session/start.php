@@ -1,5 +1,6 @@
 <?php
-    $connection = new mysqli("localhost", "myuser", "mypass", "mydb");
+    // $connection = new mysqli("localhost", "myuser", "mypass", "mydb");
+    $connection = include_once("../connect-to-db.php");
 
     if (isset($_REQUEST['username'])) {
         if ($_REQUEST['username'] === '' || $_REQUEST['password'] === '') {
@@ -7,16 +8,10 @@
             header("Location: /blog1/index.php");
         } else {
             // grab password hash from the database corresponding to current user
-            // note don't surround the question mark here with quotation marks else it won't see it as a parameter. :/
             $query = $connection->prepare("SELECT password FROM users WHERE username = ?;");
             $query->bind_param("s", $_REQUEST['username']);
             $query->execute();
             $result = $query->get_result();
-            // while ($row = $result->fetch_assoc()) {
-            //     $password_hash = $row['password'];
-            //     // printing result to check
-            //     // echo $row['password']."<br>";
-            // }
             $row = $result->fetch_assoc();
             $password_hash = $row['password'];
             // check submitted password matches the hashed password...
