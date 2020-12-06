@@ -2,14 +2,11 @@
 home stretch!
 
 current tasks:
-- return password wrong error message,
-- also please provide first name
 - navbar flexbox
 - center shit in the page.
 - apply a media query somewhere to make the posts full width.
-- badom! done
-- now just include mysql commands to initialize tables in submission!!!
-- um, if we get time, try and make it so that clicking on a post takes you to it. not that importnat, though. seeinga s we didn't get comments added in
+- delete those code comments! tidy up. and then you are done son!
+- make the buttons bigger please
 
 steps to achieve this:
 
@@ -43,6 +40,7 @@ achieved:
     - Read user - done
     - Update user - done
     - Delete user - done
+- now just include mysql commands to initialize tables in submission!!!
 
 up ahead:
 - be able to "deactivate" your account. make use of checking a user is enabled

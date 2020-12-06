@@ -3,9 +3,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     // Initialize DOM objects
     let editUserButton = document.querySelector("#edit-user-button");
     // if there's no edituserbutton in the dom, we're on someone else's profile page.
-    if (!editUserButton) {
 
-    }
 
     let editUserDetailsContainer = document.querySelector(".edit-user-details");
     let editPasswordButton = document.querySelector("#edit-password-button");
@@ -20,6 +18,17 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let newPasswordCheckField = document.querySelector('input[name=\'password-check\']');
     let usernameField = document.querySelector('input[name=\'username\']');
     let fnameField = document.querySelector('input[name=\'fname\']');
+
+    // read in request parameter 'edit'
+    const urlParams = new URLSearchParams(window.location.search);
+    let isEditing = urlParams.get('edit');
+
+    // enable editing mode if edit param = 1
+    if (isEditing == 1) {
+        enableEditUser();
+    } else {
+        disableEditUser();
+    }
 
     let isChangingPassword = false;
     editPasswordButton.addEventListener("click", function() {
@@ -44,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     }
 
     // boolean to store whether we're editing the user or not
-    let isEditing = false;
+    // let isEditing = false;
     editUserButton.addEventListener("click", function() {
         if (isEditing) {
             disableEditUser();
@@ -70,9 +79,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
     // edit user form error checker
     submitUserForm.addEventListener("click", function(event) {
-        // boolean lol always find myself wanting to start the variable declaration with the type now. that's great
+        // error flag and message
         let hasError = false;
-        // reset error message
         formError.innerText = "";
 
         // if we're changing passwords
@@ -96,8 +104,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 formError.innerText = "New passwords must match.";
                 // flag error
                 hasError = true;
-                // prevent form from being submitted
-                // event.preventDefault();
             }
         }
         // check for empty strings
@@ -107,7 +113,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 formError.innerText += "\n";
             }
             formError.innerText += "Username must be at least 1 character in length.";
-            // event.preventDefault();
             hasError = true;
         }
         if (fnameField.value == "") {
@@ -116,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
                 formError.innerText += "\n";
             }
             formError.innerText += "Please provide a first name.";
-            // event.preventDefault();
             hasError = true;
         } 
 
@@ -126,102 +130,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
             event.preventDefault();
         } else {
             // clear error message and allow form submit.
-            // formError.innerText = "";
+            formError.innerText = "";
         }
     });
 
-    // initialize page with editing disabled
-    disableEditUser();
+    // disableEditUser();
+    // initialize with password edit disabled
     disableEditPassword();
     
-    // i reckon run the empty string error checkers on whether the user does a keyup on either of the username or first name um. inputs. maybe
-    
-    // grab initial post body and copy into edit textarea
-    // let postBodyText = postBody.innerText;
-    // postTextarea.value = postBodyText;
-    
-    // // read in request parameter 'edit'
-    // const urlParams = new URLSearchParams(window.location.search);
-    // let isEditing = urlParams.get('edit');
-    
-    // // enable editing mode if edit param = 1
-    // if (isEditing == true) {
-    //     enableEditUser();
-    // } else {
-    //     // need this here in case edit parameter supplied as 0 which case isEditing will be null and first click on edit post will disable 
-    //     isEditing = false;
-    //     // disableEditUser();
-    //     // editing is disabled by default but need to set isEditing to false in case you supply as 0 which I haven't but... just in case I do somehwere for some reason.
-    // }
-
-    // toggle between editing and not editing
-    // editPostButton.addEventListener("click", function() {
-    //     // set to editing
-    //     if (!isEditing) {
-    //         enableEditUser();
-    //     } else {
-    //         disableEditUser();
-    //     }
-    // });
-    
-    // function enableEditUser() {
-    //     postBody.style.display = "none";
-    //     editPostContainer.style.display = "block";
-    //     editPostButton.innerText = "Cancel";
-    //     isEditing = true;
-
-    //     // populate textarea with the um text from the bloody yep
-    //     postTextarea.value = postBodyText;
-    // }
-    // function disableEditUser() {
-    //     postBody.style.display = "block";
-    //     editPostContainer.style.display = "none";
-    //     editPostButton.innerText = "Edit post";
-    //     isEditing = false;
-    // }
-
-
-    // // let postTextarea = document.querySelector(".post-textarea");
-    // const maxChar = 500;
-    // let charRemaining = document.querySelector("#char-remaining-count");
-    // let submitButton = document.querySelector(".submit-button");
-    // // // let postsList = document.querySelector("#posts-list");
-    
-    // // display number of characters remaining
-    // postTextarea.addEventListener("keyup", function(event) {
-    //     toggleSubmitButton();
-    //     updateCharRemaining();
-    // });
-
-    // // enable/disable submit button based on empty string or stuff in the textarea
-    // function toggleSubmitButton() {
-    //     let numChar = postTextarea.value.length;
-    //     if (numChar === 0) {
-    //         submitButton.disabled = true;
-    //         submitButton.classList.add("button-disabled");
-    //     } else {
-    //         submitButton.disabled = false;
-    //         submitButton.classList.remove("button-disabled");
-    //     }
-    // }
-
-    // function updateCharRemaining() {
-    //     // count number
-    //     let numChar = postTextarea.value.length;
-    //     // update characters remaining
-    //     if (numChar > maxChar) {
-    //         postTextarea.value = postTextarea.value.substring(0, maxChar - 1);
-    //         numChar = maxChar;
-    //         charRemaining.innerText = maxChar + " / " + maxChar;
-    //     } else {
-    //         charRemaining.innerText = numChar + " / " + maxChar;
-    //     }
-
-    //     // console.log('characters: ' + numChar);
-        
-    // }
-
-    // // focus textarea and fill in char remaining
-    // postTextarea.focus();
-    // updateCharRemaining();
 });

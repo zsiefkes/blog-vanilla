@@ -54,33 +54,38 @@
 </head>
 <body>
     <nav>
-        <ul>
-            <li><a href="../dashboard.php">Home</a></li>
+        <ul class="top-navbar">
+            <li class="nav-item"><a href="../dashboard.php">Home</a></li>
             <?php
                 if (array_key_exists('username', $_SESSION)) { ?>
-                    <li><a href="../user/read.php">Profile</a></li>
+                    <li class="nav-item"><a href="../user/read.php">Profile</a></li>
                 <?php }
             ?>
-            <li><a href="../session/end.php">Logout</a></li>
+            <li class="nav-item"><a href="../session/end.php">Logout</a></li>
         </ul>
     </nav>
     <section>
         <h1><?=$profile_username?>'s page</h1>
-        <ul class="user-details">
-            <li>Name: <?=$profile_fname?></li>
-            <li>Member since: <?=$profile_joined?></li>
-            <?php
-                // if it's your profile, provide options to edit user details.
-                if ($user_id == $profile_id) { ?>
-                    <li>
-                        <a id="edit-user-button" href="#">Edit details</a>
-                    </li>
-                <?php }
-            ?>
-            <!-- the editing stuff that will be hidden by default: -->
-        </ul>
+        <div class="user-details-container">
+            <ul class="user-details">
+                <li>Name: <?=$profile_fname?></li>
+                <li>Member since: <?=$profile_joined?></li>
+                <?php
+                    // if it's your profile, provide options to edit user details.
+                    if ($user_id == $profile_id) { ?>
+                        <li>
+                            <a id="edit-user-button" href="#">Edit details</a>
+                        </li>
+                    <?php }
+                ?>
+                <!-- the editing stuff that will be hidden by default: -->
+            </ul>
+        </div>
         <div class="edit-user-details" style="display: none;">
-            <form action="update.php?id=<?=$profile_id?>" method="post">
+            <form class="edit-user-form" action="update.php?id=<?=$profile_id?>" method="post">
+                <?php if (array_key_exists('error_msg', $_SESSION)) { ?>
+                    <p class="error-message" style="color: red; style: block;"><?=$_SESSION['error_msg']?></p>
+                <?php } ?>
                 <div>
                     <label for="username">Username:</label>
                     <input type="text" name="username" value=<?=$profile_username?>>
@@ -95,20 +100,25 @@
                     <input type="password" name="password_current">
                 </div>
                 <input type="hidden" name="user_id" value=<?=$user_id?>>
-                <div>
+                <div class="edit-user-center-field">
                     <a id="edit-password-button" href="#">Change password</a>
                 </div>
                 <div id="new-password-container">
-                    <label for="password">New password:</label>
-                    <input type="password" name="password">
-                    <label for="password-check">Confirm new password:</label>
-                    <input type="password" name="password-check">
+                    <div>
+                        <label for="password">New password:</label>
+                        <input type="password" name="password">
+                    </div>
+                    <div>
+                        <label for="password-check">Confirm new password:</label>
+                        <input type="password" name="password-check">
+                    </div>
                 </div>    
                 <input type="hidden" name="password_change" value=0 id="password-change-flag">
                 <span id="form-error"></span>              
                 <input type="submit" id="submit-user-form" value="Update details">
-                <!-- <a id="deactivate-user-button" style="diplay: none;" href="deactivate-portal">Deactivate account</a> -->
-                <a id="delete-user-button" style="display: none;" href="delete.php">Delete account</a>
+                <div class="edit-user-center-field">
+                    <a id="delete-user-button" style="display: none;" href="delete.php">Delete account</a>
+                </div>
             </form>
         </div>
         <!-- <ul class="profile-details">
@@ -138,7 +148,7 @@
                     <?php
                         if ($post_user_id == $user_id) { ?>
                             <a class="edit-post" href="../post/read.php?id=<?=$post_id?>&edit=1">Edit post</a>
-                            <a class="delete-post" onclick="return confirm('Are you sure you wish to delete this post?')" href="post/destroy.php?id=<?=$post_id?>">Delete post</a>
+                            <a class="delete-post" onclick="return confirm('Are you sure you wish to delete this post?')" href="../post/destroy.php?id=<?=$post_id?>">Delete post</a>
                         <?php }
                     ?>
                     <p>

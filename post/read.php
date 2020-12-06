@@ -49,14 +49,14 @@
 </head>
 <body>
     <nav>
-        <ul>
-            <li><a href="../dashboard.php">Home</a></li>
+        <ul class="top-navbar">
+            <li class="nav-item"><a href="../dashboard.php">Home</a></li>
             <?php
                 if (array_key_exists('username', $_SESSION)) { ?>
-                    <li><a href="../user/read.php">Profile</a></li>
+                    <li class="nav-item"><a href="../user/read.php">Profile</a></li>
                 <?php }
             ?>
-            <li><a href="../session/end.php">Logout</a></li>
+            <li class="nav-item"><a href="../session/end.php">Logout</a></li>
         </ul>
     </nav>
     <div class="post-container">

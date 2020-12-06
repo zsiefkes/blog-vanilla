@@ -46,11 +46,15 @@
             $update_query->execute();
         }
 
-        // and now ... redirect back to the user's profile page.
+        // and now ... remove any error message and redirect back to the user's profile page.
+        session_start();
+        unset($_SESSION['error_msg']);
         header("Location: read.php?id=" . $user_id);
     } else {
-        // password didn't match. redirect back to profile page... should really communicate error message about this
-        header("Location: read.php?id=" . $user_id);
+        // password didn't match. redirect back to profile page and set error message on session
+        session_start();
+        $_SESSION['error_msg'] = "Incorrect password.";
+        header("Location: read.php?edit=1&id=" . $user_id);
     }   
 
 ?>

@@ -3,6 +3,10 @@
 /* $linkPink: rgb(216, 29, 216);
 $linkPurple: rgb(98, 16, 250); */
 
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
 html {
     font-size: 1.1em;
     box-sizing: border-box;
@@ -18,9 +22,29 @@ body {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 }
 
-h2 {
+h1, h2 {
     /* color: rgb(98, 16, 250); */
+    text-align: center;
     font-weight: 600;
+}
+
+textarea {
+    color: rgb(216, 29, 216);
+    background-color: #2f2f2f;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    resize: none;
+}
+
+#post-textarea {
+    font-size: 1.2em;
 }
 
 a {
@@ -33,22 +57,18 @@ a:hover {
     color: rgb(216, 29, 216);
 }
 
-textarea {
-    color: rgb(216, 29, 216);
-    background-color: #2f2f2f;
-    border: none;
-    overflow: auto;
-    outline: none;
-    
-    -webkit-box-shadow: none;
-    -moz-box-shadow: none;
-    box-shadow: none;
-    
-    resize: none; /*remove the resize handle on the bottom right*/
+.nav-item > a::before {
+    content: "";
+    position: absolute;
+    height: 3px;
+    right: 0px;
+    bottom: -3px;
+    left: 0px;
+    background-color: rgb(216, 29, 216);
 }
 
-#post-textarea {
-    font-size: 1.2em;
+a:hover::before {
+    background: rgb(98, 16, 250);
 }
 
 ul {
@@ -59,22 +79,29 @@ button, input[type=submit] {
     display: block;
     background-color: #2f2f2f;
     color: #528AAE;
-    padding: 5px 20px;
-    border: 1px #528AAE solid;
+    padding: 7px 30px;
+    border: 2px #528AAE solid;
     border-radius: 2px;
     font-weight: 500;
+    font-size: 1em;
+    margin: 10px;
 }
 
 button, input[type=submit]:hover {
     /* background-color: #528AAE; */
     border: 1px #91BAD6 solid;
     color: #91BAD6;
+    cursor: pointer;
 }
 
 input[type=submit], button.button-disabled:hover {
     color: #528AAE;
     border: 1px #528AAE solid;
 
+}
+
+.submit-button {
+    margin: 10px auto;
 }
 
 .char-remaining {
@@ -86,7 +113,10 @@ input[type=submit], button.button-disabled:hover {
     font-size: .9em;
     width: 90vw;
     border: 1px rgb(176, 16, 250) solid;
-    margin: 5px;
+    margin: 5px auto;
+    padding: 2px 7px;
+
+
 }
 .post-container:hover {
     border: 1px rgb(216, 29, 216) dashed;
@@ -106,6 +136,38 @@ input[type=submit], button.button-disabled:hover {
     color: rgb(176, 16, 250);
 }
 
+.char-remaining {
+    text-align: center;
+}
+
+.delete-info {
+    margin: 20px;
+}
+
+.delete-form {
+    text-align: center;
+}
+.delete-form > input[type=submit] {
+    margin: 20px auto 3px auto;
+}
+
+.edit-user-form {
+    width: 380px;
+    margin: 10px auto;
+}
+.edit-user-form > input[type=submit] {
+    margin: 10px auto 10px auto;
+}
+.edit-user-center-field {
+    text-align: center;
+}
+
+.user-details-container {
+    /* text-align: center; */
+    margin: 10px auto;
+    width: 380px;
+}
+
 #edit-post-container {
     display: none;
 }
@@ -113,4 +175,70 @@ input[type=submit], button.button-disabled:hover {
 #form-error {
     display: block;
     color: red;
+}
+
+.top-navbar {
+	list-style-type: none;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+.top-navbar li {
+	/* border: 1px dotted rgb(216, 29, 216); */
+	padding: 10px 20px;
+	text-align: center;
+}
+
+nav {
+    padding: 10px;
+
+    @media(min-width: 600px) {
+        20px;
+    }
+}
+
+nav.flexbox {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav.flexbox > ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+nav.flexbox > ul > li {
+    margin-right: 20px;
+}
+
+nav.flexbox > ul > li:last-child {
+    margin-right: 0px;
+}
+
+/* wide styles */
+@media (min-width: 600px) {
+    nav.flexbox {
+        justify-content: space-between;
+    }
+    .post-container {
+        width: 600px;
+    }
+    .delete-info {
+        width: 600px;
+        margin: 20px auto;
+    }
+}
+
+/* narrow styles */
+@media (max-width: 600px) {
+    .edit-post, .delete-post {
+        display: block;
+    }
 }
