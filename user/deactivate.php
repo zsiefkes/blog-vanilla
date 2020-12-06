@@ -22,16 +22,10 @@
 
     // check submitted password matches the hashed password...
     if (password_verify($_REQUEST['password'], $current_password_hash)) {
-        echo "yep :)";
-        // excellent! we're going to query the post table and delete all of this user's posts, then query the user's table and remove that user.
-        $remove_posts_query = $connection->prepare("DELETE FROM posts WHERE user_id = ?;");
-        $remove_posts_query->bind_param("i", $user_id);
-        $remove_posts_query->execute();
-
-        // and now delete the user!
-        $delete_user_query = $connection->prepare("DELETE FROM users WHERE id = ?");
-        $delete_user_query->bind_param("i", $user_id);
-        $delete_user_query->execute();
+        // run update query
+        $update_query = $connection->prepare("UPDATE users SET enabled = 0 WHERE id = ?;");
+        $update_query->bind_param("i", $user_id);
+        $update_query->execute();
 
         // end session
         header("Location: ../session/end.php");

@@ -4,24 +4,19 @@
         // for some reason it's showing a set session even after i've "unset" one on logout, so... just a second check to see if there isn't a username key in the session array. redirect to homepage if so.
         session_start();
         if (!array_key_exists('username', $_SESSION)) {
-            header("Location: /blog1/index.php");
+            header("Location: index.php");
         } else {
             // user is currently logged in. save user variables to session store.
             $fname = $_SESSION['fname'];
             $username = $_SESSION['username'];
             $user_id = $_SESSION['user_id'];
 
-            // establish database connection
-            // $servername = "localhost";
-            // $dbusername = "myuser";
-            // $dbpassword = "mypass";
-            // $dbname = "mydb";
-            // $connection = mysqli_connect($servername, $dbusername, $dbpassword, $dbname);
+            // connect to database
             $connection = include_once("connect-to-db.php");
         }
     } else {
         // in theory if there is no session set, redirect to homepage
-        header("Location: /blog1/index.php");
+        header("Location: index.php");
     } 
     ?>
 <!DOCTYPE html>
@@ -34,19 +29,9 @@
     <title>Blog</title>
 </head>
 <body>
-    <?php
-        // $date = date_create('2000-01-01');
-        // echo date_format($date, 'Y-m-d H:i:s');
-        // $timestamp = date("Y-m-d H:i:s");
-        // echo $timestamp;
-        // um check if a user is logged in... we only get the dashboard if we're logged in... right?
-        // so ..................... how tf we do this lol
-        // session_start();
-        // echo $fname, $username;
-    ?>
     <nav>
         <ul>
-            <li><a href="/blog1/dashboard.php">Home</a></li>
+            <li><a href="dashboard.php">Home</a></li>
             <?php
                 if (array_key_exists('username', $_SESSION)) { ?>
                     <li><a href="user/read.php">Profile</a></li>
@@ -57,7 +42,7 @@
     </nav>
     <section>
         <?php
-            if ($_SESSION['just_reenabled'] == true) { ?>
+            if ($_SESSION['just_reenabled'] == 1) { ?>
                 <h2>Welcome back, <?= $fname ?>!</h2>
         <?php } else { ?>
             <h2>What's on your mind, <?= $fname ?>?</h2>
@@ -87,30 +72,33 @@
                 $user_query->execute();
                 $user_result = $user_query->get_result();
                 $user_row = $user_result->fetch_assoc();
+
+                // only display post if the user is enabled
+                if ($user_row['enabled'] == 1) {
                 ?>
 
-                <!-- display first ??? characters of post with link to full post -->
-                <a class="post-link" href="/blog1/post/read.php?id=<?=$post_id?>">
-                    <div class="post-container">
-                        <span class="timestamp">
-                            Posted by 
-                            <a href="user/read.php?id=<?=$post_user_id?>">
-                                <?= $user_row['username'] ?>
-                            </a>
-                            at <?= $post['timestamp'] ?>
-                            <?php
-                                if ($post_user_id == $user_id) { ?>
-                                    <a class="edit-post" href="post/read.php?id=<?=$post_id?>&edit=1">Edit post</a>
-                                    <a class="delete-post" onclick="return confirm('Are you sure you wish to delete this post?')" href="post/destroy.php?id=<?=$post_id?>">Delete post</a>
-                                <?php }
-                            ?>
-                        </span>
-                        <p>
-                            <?= $post['body']; ?>
-                        </p>
-                    </div>
-                </a>
+                    <a class="post-link" href="post/read.php?id=<?=$post_id?>">
+                        <div class="post-container">
+                            <span class="timestamp">
+                                Posted by 
+                                <a href="user/read.php?id=<?=$post_user_id?>">
+                                    <?= $user_row['username'] ?>
+                                </a>
+                                at <?= $post['timestamp'] ?>
+                                <?php
+                                    if ($post_user_id == $user_id) { ?>
+                                        <a class="edit-post" href="post/read.php?id=<?=$post_id?>&edit=1">Edit post</a>
+                                        <a class="delete-post" onclick="return confirm('Are you sure you wish to delete this post?')" href="post/destroy.php?id=<?=$post_id?>">Delete post</a>
+                                    <?php }
+                                ?>
+                            </span>
+                            <p>
+                                <?= $post['body']; ?>
+                            </p>
+                        </div>
+                    </a>
             <?php }
+            }
         ?>
         </div>
     </section>    

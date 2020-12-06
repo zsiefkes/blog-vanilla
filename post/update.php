@@ -5,7 +5,7 @@
     if (isset($_REQUEST['id'])) {
         if ($_REQUEST['id'] == '') {
             // redirect if id was empty
-            header("Location: /blog1/dashboard.php");
+            header("Location: ../dashboard.php");
         }
         $post_id = $_REQUEST['id'];
         
@@ -15,8 +15,7 @@
         
         // check user id and post id match
         if ($post_user_id != $user_id) {
-            // header("Location: /blog1/dashboard.php");
-            header("Location: /blog1/post/read.php?id=" . $post_id);
+            header("Location: ../post/read.php?id=" . $post_id);
         }
 
         // grab post details
@@ -46,13 +45,10 @@
 
         // run the update query
         $update_query = $connection->prepare("UPDATE posts SET body = ?, timestamp = ? WHERE id = ?;");
-        // $update_query = $connection->prepare("INSERT INTO posts (body, timestamp, user_id) VALUES (?, ?, ?) ;");
         $update_query->bind_param("sss", $body, $timestamp, $post_id);
         $update_query->execute();
-        // $result = $update_query->get_result();
-        // header("Location: /blog1/dashboard.php");
-        header("Location: /blog1/post/read.php?id=" . $post_id);
+        header("Location: ../post/read.php?id=" . $post_id);
   
     }
-    header("Location: /blog1/post/read.php?id=" . $post_id);
+    header("Location: ../post/read.php?id=" . $post_id);
 ?>

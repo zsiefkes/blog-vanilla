@@ -1,34 +1,15 @@
-- include mysql commands to initialize tables in submission!!!
-- also remove all mentions of blog1. use cmd+shift+f to do the search
 
 home stretch!
 
 current tasks:
-- delete user back-end
-- return password wrong error message
-
-
-- deactivate user
-- on ... profile and home page? should i create the update user part first? where you can update your first name?
-- that makes sense. and then on there just have a deactivate account button. and a delete button
-- what does deactivating do? er... logs you out, means people can't comment on your posts, though we haven't got that going yet.....
-- does it like, hide your posts or some shit? :( nah fuck that
-- deleting your account however um. properly deletes your account and all your posts. aw. 
-
-- so, looks like tomorrow i'll be styling? that's cool 
-
-- get CRUD going for users and posts.
-    - Create post - done
-    - Read post - done
-    - Update post - done
-    - Delete post - done
-
-    - Create user - done
-    - Read user - done
-    - Update user - done
-    - Delete user
-        - yikes, to delete a user you need to first remove all of their posts too.
-        - or, maybe just leave the things. bleugh
+- return password wrong error message,
+- also please provide first name
+- navbar flexbox
+- center shit in the page.
+- apply a media query somewhere to make the posts full width.
+- badom! done
+- now just include mysql commands to initialize tables in submission!!!
+- um, if we get time, try and make it so that clicking on a post takes you to it. not that importnat, though. seeinga s we didn't get comments added in
 
 steps to achieve this:
 
@@ -51,6 +32,17 @@ achieved:
     - can send that along as a parameter to the post route
     - and have a default redirect to the dashboard one if none is sent. :)
 - update post. from read post page.
+- change all instances of "/blog1/" in the url to "../" please.
+- get CRUD going for users and posts.
+    - Create post - done
+    - Read post - done
+    - Update post - done
+    - Delete post - done
+
+    - Create user - done
+    - Read user - done
+    - Update user - done
+    - Delete user - done
 
 up ahead:
 - be able to "deactivate" your account. make use of checking a user is enabled
@@ -62,7 +54,6 @@ nice to haves:
 - beside timestamp or instead of timestamp, put in eg. "one hour ago, 2 days ago"
 
 other tasks:
-- change all instances of "/blog1/" in the url to "../" please.
 - oh: profile should be um. user/read, shouldn't it? and same as with post/read, it should hopefully have an edit button that replaces some of the elements with a form that posts to user/update
 - okay cool, can do...
 - style the navbar!

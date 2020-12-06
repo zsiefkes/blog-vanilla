@@ -34,7 +34,7 @@
         
         // user not logged in, no id provided, redirect to landing page
     } else {
-        header("Location: /blog1/index.php");
+        header("Location: ../index.php");
     }
     ?>
 

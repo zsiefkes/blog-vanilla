@@ -50,14 +50,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
         isEditing = false;
     }
 
-    // should be contained in a form that submits to update.php?id=blah
-    // <a class="edit-post" href="/blog1/post/edit.php?id=<?=$post_id?>">Edit post</a>
-
-
-
-
-    // let posts = [];
-
     // let postTextarea = document.querySelector(".post-textarea");
     const maxChar = 500;
     let charRemaining = document.querySelector("#char-remaining-count");

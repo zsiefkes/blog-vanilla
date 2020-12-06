@@ -11,7 +11,6 @@
     
     // check user id and request user id match
     if ($update_user_id != $user_id) {
-        // header("Location: /blog1/dashboard.php");
         header("Location: ../dashboard.php");
     }
 

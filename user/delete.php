@@ -42,20 +42,36 @@
         </ul>
     </nav>
     <section>
-        <h1>Delete account</h1>
+        <h2>Deactivate account</h2>
 
-        <div class="edit-user-details">
-            <p>Deleting your account will remove all of your posts and is permanent. Your account information and posts will not be retrievable. Are you sure you want to do this? If so, enter your password below.</p>
-            <form action="destroy.php?id=<?=$user_id?>" method="post">
-                <div>
-                    <label for="password_current">Password:</label>
-                    <input type="password" name="password">
-                </div>
-                <input type="hidden" name="user_id" value=<?=$user_id?>>
-                <input type="submit" id="submit-user-form" value="Delete account">
-                <a href="read.php?id=<?=$user_id?>">Don't delete</a>
-            </form>
-        </div>
+        <p>
+            Deactivating your account will hide your posts and profile from other users. If you would like to retrieve your posts and reactivate your account, simply log in again. Enter your password if you would like to deactivate your account.
+        </p>
+        <form action="deactivate.php?id=<?=$user_id?>" method="post">
+            <div>
+                <label for="password_current">Password:</label>
+                <input type="password" name="password">
+            </div>
+            <input type="hidden" name="user_id" value=<?=$user_id?>>
+            <input type="submit" value="Deactivate account">
+            <a href="read.php?id=<?=$user_id?>">Return to profile</a>
+        </form>
+        <?php if (array_key_exists('error_msg', $_SESSION)) { ?>
+            <p class="error-message" style="color: red; style: block;"><?=$_SESSION['error_msg']?></p>
+    <?php } ?>
+
+        <h2>Delete account</h2>
+
+        <p>Deleting your account will remove all of your posts and is permanent. Your account information and posts will not be retrievable. Are you sure you want to do this? If so, enter your password below.</p>
+        <form action="destroy.php?id=<?=$user_id?>" method="post">
+            <div>
+                <label for="password_current">Password:</label>
+                <input type="password" name="password">
+            </div>
+            <input type="hidden" name="user_id" value=<?=$user_id?>>
+            <input type="submit" value="Delete account">
+            <a href="read.php?id=<?=$user_id?>">Don't delete</a>
+        </form>
     </section>
      
 </body>

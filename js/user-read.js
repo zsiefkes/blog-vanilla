@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     let editUserButton = document.querySelector("#edit-user-button");
     // if there's no edituserbutton in the dom, we're on someone else's profile page.
     if (!editUserButton) {
-        
+
     }
 
     let editUserDetailsContainer = document.querySelector(".edit-user-details");
@@ -180,13 +180,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //     isEditing = false;
     // }
 
-    // // should be contained in a form that submits to update.php?id=blah
-    // // <a class="edit-post" href="/blog1/post/edit.php?id=<?=$post_id?>">Edit post</a>
-
-
-
-
-    // // let posts = [];
 
     // // let postTextarea = document.querySelector(".post-textarea");
     // const maxChar = 500;

@@ -5,17 +5,13 @@
     if (isset($_REQUEST['id'])) {
         if ($_REQUEST['id'] == '') {
             // redirect if id was empty
-            header("Location: /blog1/dashboard.php");
+            header("Location: ../dashboard.php");
         }
         $post_id = $_REQUEST['id'];
 
         // grab logged in user id
-        // if (!isset($_SESSION)) {
         session_start();
         $user_id = $_SESSION['user_id'];
-        // } else {
-            // header("Location: /blog1/dashboard.php");
-        // }
         
         // grab post details
         $select_post_query = $connection->prepare("SELECT * FROM posts WHERE id = ? ;");
@@ -34,7 +30,7 @@
         $user_result = $user_query->get_result();
         $poster = $user_result->fetch_assoc();
         $poster_username = $poster['username'];
-        $poster_username = $poster['fname'];
+        $poster_fname = $poster['fname'];
     }
 ?>
 <!DOCTYPE html>
@@ -42,20 +38,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/blog1/style.css">
-    <script src="/blog1/js/post-read.js"></script>
+    <link rel="stylesheet" href="../style.css">
+    <?php
+        // only need the javascript if it's a post you made page
+        if ($user_id == $post_user_id) { ?>
+            <script src="../js/post-read.js"></script>    
+        <?php }
+    ?>
     <title>View Post</title>
 </head>
 <body>
     <nav>
         <ul>
-            <li><a href="/blog1/dashboard.php">Home</a></li>
+            <li><a href="../dashboard.php">Home</a></li>
             <?php
                 if (array_key_exists('username', $_SESSION)) { ?>
                     <li><a href="../user/read.php">Profile</a></li>
                 <?php }
             ?>
-            <li><a href="/blog1/session/end.php">Logout</a></li>
+            <li><a href="../session/end.php">Logout</a></li>
         </ul>
     </nav>
     <div class="post-container">
@@ -67,7 +68,7 @@
             at <?= $post['timestamp'] ?>
             <?php
                 if ($post_user_id == $user_id) { ?>
-                    <a class="delete-post" onclick="return confirm('Are you sure you wish to delete this post?')" href="/blog1/post/destroy.php?id=<?=$post_id?>">Delete post</a>
+                    <a class="delete-post" onclick="return confirm('Are you sure you wish to delete this post?')" href="../post/destroy.php?id=<?=$post_id?>">Delete post</a>
                     <!-- <span id="edit-post">Edit post</span> -->
                     <a id="edit-post-button" href="#">Edit post</a>
                 <?php }

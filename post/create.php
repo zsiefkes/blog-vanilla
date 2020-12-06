@@ -5,7 +5,7 @@
     if (isset($_REQUEST['body'])) {
         if ($_REQUEST['body'] == '') {
             // redirect if body was empty
-            header("Location: /blog1/index.php");
+            header("Location: ../index.php");
         } else {
             $body = $_REQUEST['body'];
             // bit of testing here... want to see what values are coming through
@@ -22,7 +22,7 @@
             $query->bind_param("ssi", $body, $timestamp, $_REQUEST['user_id']);
             $query->execute();
             $result = $query->get_result();
-            header("Location: /blog1/dashboard.php");
+            header("Location: ../dashboard.php");
         }
     }
     // echo $_REQUEST['body'];
