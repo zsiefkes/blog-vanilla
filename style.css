@@ -109,3 +109,8 @@ ul {
 #edit-post-container {
     display: none;
 }
+
+#form-error {
+    display: block;
+    color: red;
+}

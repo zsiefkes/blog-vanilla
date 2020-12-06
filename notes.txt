@@ -1,22 +1,53 @@
 
 current task:
-- update post. from read post page.
+- update route needs to validate password. grab this code from the login 
+- do a series of if's that checks for the presence of each of the um. things
+- oh no wait.
+- they'll all be sent. eh. yeah
+- so just fill in the query with fname, username, 
 
-- need to fix the view post button. ideally make it the whole thing, if you can't get that to work just use a view post link beside delete post maybe. for now.
-- i was thinking maybe add some css to the dashboard / post list that um. enlarges each post on hover? quite quickly. could be nice
-- read post page. click on i dunno view post or some shit to view just that post
-- after we get the rest of the shit done we can do comments, yeah? comments are good.....
+- edit password button should unhide the passsword submit thing, and um.
+- change the value of a hidden input about whether we're updating the password or not, from 0 to 1. switch back if you decide not to change password
+- also new password field should have two enter password fields.
+- maybe use js to keep the update details button disabled unless the new passwords match, or whatevs..
+
+- edit user
+
+- just do the same thing you did to edit a post.
+- javascript that will show some elements that submit to an update post route
+- all you can update is ... your username and your fname. how about password?
+- do you need to enter your password to update your details? imma say yes
+- okay.
+
+edit user: show these but not 
+username edit
+fname edit
+change password
+password
+confirm password
+
+enter old password to update details
+
+
+- deactivate user
+- on ... profile and home page? should i create the update user part first? where you can update your first name?
+- that makes sense. and then on there just have a deactivate account button. and a delete button
+- what does deactivating do? er... logs you out, means people can't comment on your posts, though we haven't got that going yet.....
+- does it like, hide your posts or some shit? :( nah fuck that
+- deleting your account however um. properly deletes your account and all your posts. aw. 
+
+- so, looks like tomorrow i'll be styling? that's cool 
 
 - get CRUD going for users and posts.
     - Create post - done
     - Read post - done
-    - Update post
+    - Update post - done
     - Delete post - done
 
     - Create user - done
     - Read user - done
     - Update user
-    - Delete user
+    - Delete useris
         - yikes, to delete a user you need to first remove all of their posts
         - once we have comments too, you need to delete all their comments too.
         - or, maybe just leave the things. bleugh
@@ -41,6 +72,7 @@ achieved:
     - then you're redirected... i dunno, somewhere. probably wherever you just came from?
     - can send that along as a parameter to the post route
     - and have a default redirect to the dashboard one if none is sent. :)
+- update post. from read post page.
 
 up ahead:
 - be able to "deactivate" your account. make use of checking a user is enabled

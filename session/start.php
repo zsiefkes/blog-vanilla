@@ -73,13 +73,16 @@
                 // sid
                 // session id is SID
                 // save these things to the database....
-                $session_query = $connection->prepare("INSERT INTO user_sessions (session_id, user_id, login_time) VALUES (?, ?, ?);");
-                echo $session_id;
-                echo $user_id;
-                echo $login_time;
-                $session_query->bind_param("sis", $session_id, $user_id, $login_time);
-                $session_query->execute();  
-                $session_result = $session_query->get_result();
+
+                // for saome reason this doesn't work
+
+                // $session_query = $connection->prepare("INSERT INTO user_sessions (session_id, user_id, login_time) VALUES (?, ?, ?);");
+                // echo $session_id;
+                // echo $user_id;
+                // echo $login_time;
+                // $session_query->bind_param("sis", $session_id, $user_id, $login_time);
+                // $session_query->execute();  
+                // $session_result = $session_query->get_result();
                 // $session_row = $session_result->fetch_assoc();
                 // echo $session_row;
                 

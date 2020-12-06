@@ -14,7 +14,7 @@
             $query = $connection->prepare("INSERT INTO users (username, fname, password) VALUES (?, ?, ?) ;");
             $query->bind_param("sss", $username, $fname, $pass_hash);
             $query->execute();
-            $result = $query->get_result();
+            // $result = $query->get_result();
             // we're not doing anything with the result.... should I be checking it was like, um. what's the word. successful or some shit? yeah?
 
             $user_query = $connection->prepare("SELECT * FROM users WHERE username = ?;");

@@ -30,16 +30,17 @@
         $profile = $profile_result->fetch_assoc();
         $profile_username = $profile['username'];
         $profile_fname = $profile['fname'];
-    
+        $profile_joined = $profile['reg_time'];
+        
         // if id was not provided in url, check if user is logged in and default to their profile
     } else if (array_key_exists('user_id', $_SESSION)) {
         header("Location: read.php?id=" . $_SESSION['user_id']);
-
+        
         // user not logged in, no id provided, redirect to landing page
     } else {
         header("Location: /blog1/index.php");
     }
-?>
+    ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,32 +48,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../style.css">
+    <script src="../js/user-read.js"></script>    
     <title></title>
 </head>
 <body>
     <nav>
         <ul>
-            <li><a href="/blog1/dashboard.php">Home</a></li>
+            <li><a href="../dashboard.php">Home</a></li>
             <?php
                 if (array_key_exists('username', $_SESSION)) { ?>
                     <li><a href="../user/read.php">Profile</a></li>
                 <?php }
             ?>
-            <li><a href="/blog1/session/end.php">Logout</a></li>
+            <li><a href="../session/end.php">Logout</a></li>
         </ul>
     </nav>
     <section>
-        <?php
-            // user profile details
-            
-            // their name and... other optional stuff? location?
-            // after a user signs up, maybe direct them to their profile to fill shit out, or something
-            // location, occupation, website. dunno
-        ?>
+        <h1><?=$profile_username?>'s page</h1>
+        <ul class="user-details">
+            <li>Name: <?=$profile_fname?></li>
+            <li>Member since: <?=$profile_joined?></li>
+            <?php
+                // if it's your profile, provide options to edit user details.
+                if ($user_id == $profile_id) { ?>
+                    <li>
+                        <a id="edit-user-button" href="#">Edit details</a>
+                    </li>
+                <?php }
+            ?>
+            <!-- the editing stuff that will be hidden by default: -->
+        </ul>
+        <div class="edit-user-details">
+            <form action="update.php?id=<?=$profile_id?>" method="post">
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" value=<?=$profile_username?>>
+                </div>
+                <div>
+                    <label for="fname">First name:</label>
+                    <input type="text" name="fname" value=<?=$profile_fname?>>
+                </div>
+                <div style="color: red;">Enter old password to update.</div>
+                <div>
+                    <label for="password_current">Current password:</label>
+                    <input type="password" name="password_current">
+                </div>
+                <input type="hidden" name="user_id" value=<?=$user_id?>>
+                <div><a id="edit-password-button" href="#">Edit password</a></div>
+                <div id="new-password-container">
+                    <label for="password">New password:</label>
+                    <input type="password" name="password">
+                    <label for="password-check">Confirm new password:</label>
+                    <input type="password" name="password-check">
+                </div>    
+                <input type="hidden" name="password_change" value=0 id="password-change-flag">
+                <span id="form-error"></span>
+
+                <!-- probs wanna stop from submitting if any of the stuff is empty strings too, right -->
+                <!-- stop submit button from going through if user is changing password and the new passwords don't match. in the js will check this too and add an error msg -->
+                
+                <input type="submit" id="submit-user-form" value="Update details">
+            </form>
+        </div>
         <!-- <ul class="profile-details">
             <li>Name: <?= $profile_username ?></li>
         </ul> -->
-        <!-- meh. i don't see the need for this section rn -->
     </section>
     <section>
         <h2>Posts by <?= $profile_username ?></h2>
@@ -107,6 +147,5 @@
             <?php }
         ?>
     </section>    
-    <script src="script.js"></script>    
 </body>
 </html>
