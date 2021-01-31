@@ -18,25 +18,7 @@
             header("Location: ../post/read.php?id=" . $post_id);
         }
 
-        // grab post details
-        // $select_post_query = $connection->prepare("SELECT * FROM posts WHERE id = ? ;");
-        // $select_post_query->bind_param("i", $post_id);
-        // $select_post_query->execute();
-        // $result = $select_post_query->get_result();
-        // $post = $result->fetch_assoc();
-        // $post_body = $post['body'];
-        // $post_user_id = $post['user_id'];
-        // $post_timestamp = $post['timestamp'];
-        
-        // grab poster details
-        // $user_query = $connection->prepare("SELECT * FROM posts WHERE id = ? ;");
-        // $user_query->bind_param("i", $_REQUEST['post_user_id']);
-        // $user_query->execute();
-        // $user_result = $user_query->get_result();
-        // $poster = $user_result->fetch_assoc();
-        // $poster_username = $poster['username'];
-        // $poster_username = $poster['fname'];
-
+        // limit body chars and set timestamp
         $body = $_REQUEST['body'];
         if (strlen($body) > 499) {
             $body = substr($body, 0, 499);

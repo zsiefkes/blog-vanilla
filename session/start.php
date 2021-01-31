@@ -26,8 +26,7 @@
                 // check submitted password matches the hashed password...
                 if (password_verify($_REQUEST['password'], $password_hash)) {
                     echo 'true!';
-                    // oh my god holy fucking shit IT WORKS YESSSSSSSSSSSSSSSSSSSSSSS
-                    // okay now we need to start a session :S weird
+
                     // start session and redirect to dashboard
                     
                     // grab user details... yeah?   
@@ -41,8 +40,7 @@
                     $fname = $user_row['fname'];
                     $user_enabled = $user_row['enabled'];
     
-                    // if user is disabled, want to offer them option to reenable their account.
-                    // or maybe just do it automatically cause they trying to log in. maybe add a boolean to the session array about 'just_reenabled' or some shit and display welcome back, fname! on the dashboard if so
+                    // if user is disabled, reenable account and add 'just_reenabled' boolean to user session
                     if ($user_enabled == 0) {
                         // make the user enabled
                         $enable_query = $connection->prepare("UPDATE users SET enabled = 1 WHERE id = ?;");
